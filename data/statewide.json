@@ -1,0 +1,422 @@
+{
+ "generated": "2026-10-09T23:38:24.001Z",
+ "results": {
+  "overview": {
+   "protection": [
+    {
+     "land_acres": 101471550.01847866,
+     "gap12_acres": 26519426.111013092,
+     "frac_gap12": 0.2613483888457772,
+     "frac_gap34": 0.25633504739022406,
+     "frac_none": 0.4823165637639988
+    }
+   ],
+   "people": [
+    {
+     "n_blockgroups": 25520,
+     "population": 39218311,
+     "income": 112732.72655856807
+    }
+   ],
+   "wcb": [
+    {
+     "n_projects": 3581,
+     "wcb_funding": 4411615224.936044,
+     "wcb_funding_touching": 4412854199.66
+    }
+   ]
+  },
+  "equity": {
+   "parks": [
+    {
+     "pop_no_park": 8653613.886194633,
+     "frac_pop_no_park": 0.2207761676568691,
+     "frac_pop_park_poor": 0.6114063958775945
+    }
+   ],
+   "dac": [
+    {
+     "grp": "DAC tracts",
+     "n_tracts": 2894,
+     "pop": 11860913,
+     "acres": 64911977.79469827,
+     "gap12_acres": 19269335.377201237,
+     "frac_pop": 0.30266626926701456,
+     "frac_land": 0.6397340756240733,
+     "frac_gap12": 0.7266185004995414,
+     "gap12_acres_per_1000": 1624.6081037101644,
+     "frac_protected": 0.2968533086165659
+    },
+    {
+     "grp": "Other tracts",
+     "n_tracts": 6198,
+     "pop": 27327177,
+     "acres": 36555147.79396971,
+     "gap12_acres": 7249856.418705148,
+     "frac_pop": 0.6973337307329854,
+     "frac_land": 0.36026592437592664,
+     "frac_gap12": 0.27338149950045865,
+     "gap12_acres_per_1000": 265.298403077096,
+     "frac_protected": 0.19832655196927185
+    }
+   ],
+   "ces": [
+    {
+     "decile": "90–100 (most burdened)",
+     "pop": 3780708,
+     "frac_pop": 0.09677646016074017,
+     "ces_pctl": 50.54846724470138,
+     "frac_pop_top25": 0.24825898346766062
+    },
+    {
+     "decile": "80–90",
+     "pop": 3969474,
+     "frac_pop": 0.1016083872174455,
+     "ces_pctl": 50.54846724470138,
+     "frac_pop_top25": 0.24825898346766062
+    },
+    {
+     "decile": "70–80",
+     "pop": 4001585,
+     "frac_pop": 0.10243034673196541,
+     "ces_pctl": 50.54846724470138,
+     "frac_pop_top25": 0.24825898346766062
+    },
+    {
+     "decile": "60–70",
+     "pop": 4158027,
+     "frac_pop": 0.10643486201864359,
+     "ces_pctl": 50.54846724470138,
+     "frac_pop_top25": 0.24825898346766062
+    },
+    {
+     "decile": "50–60",
+     "pop": 4006266,
+     "frac_pop": 0.10255016836590604,
+     "ces_pctl": 50.54846724470138,
+     "frac_pop_top25": 0.24825898346766062
+    },
+    {
+     "decile": "40–50",
+     "pop": 3977450,
+     "frac_pop": 0.1018125524283642,
+     "ces_pctl": 50.54846724470138,
+     "frac_pop_top25": 0.24825898346766062
+    },
+    {
+     "decile": "30–40",
+     "pop": 3934234,
+     "frac_pop": 0.10070633330160103,
+     "ces_pctl": 50.54846724470138,
+     "frac_pop_top25": 0.24825898346766062
+    },
+    {
+     "decile": "20–30",
+     "pop": 3824249,
+     "frac_pop": 0.09789099845670453,
+     "ces_pctl": 50.54846724470138,
+     "frac_pop_top25": 0.24825898346766062
+    },
+    {
+     "decile": "10–20",
+     "pop": 3747352,
+     "frac_pop": 0.09592263182881884,
+     "ces_pctl": 50.54846724470138,
+     "frac_pop_top25": 0.24825898346766062
+    },
+    {
+     "decile": "0–10 (least burdened)",
+     "pop": 3667056,
+     "frac_pop": 0.0938672594898107,
+     "ces_pctl": 50.54846724470138,
+     "frac_pop_top25": 0.24825898346766062
+    }
+   ]
+  },
+  "biodiversity": {
+   "sgcn": [
+    {
+     "taxon_group": "All",
+     "n_sgcn": 318,
+     "n_listed": 82,
+     "n_fed_listed": 48,
+     "n_state_listed": 71,
+     "n_not_listed": 236,
+     "n_prot_lt20pct": 153,
+     "n_prot_20_30pct": 80,
+     "n_prot_ge30pct": 85,
+     "mean_range_protected": 0.2633303550190426,
+     "aoi_land_protected": 0.2613483924122547
+    },
+    {
+     "taxon_group": "Birds",
+     "n_sgcn": 134,
+     "n_listed": 23,
+     "n_fed_listed": 10,
+     "n_state_listed": 23,
+     "n_not_listed": 111,
+     "n_prot_lt20pct": 53,
+     "n_prot_20_30pct": 43,
+     "n_prot_ge30pct": 38,
+     "mean_range_protected": 0.2757266314282861,
+     "aoi_land_protected": 0.2613483924122547
+    },
+    {
+     "taxon_group": "Fish",
+     "n_sgcn": 73,
+     "n_listed": 24,
+     "n_fed_listed": 18,
+     "n_state_listed": 16,
+     "n_not_listed": 49,
+     "n_prot_lt20pct": 46,
+     "n_prot_20_30pct": 14,
+     "n_prot_ge30pct": 13,
+     "mean_range_protected": 0.225026410775736,
+     "aoi_land_protected": 0.2613483924122547
+    },
+    {
+     "taxon_group": "Mammals",
+     "n_sgcn": 53,
+     "n_listed": 14,
+     "n_fed_listed": 7,
+     "n_state_listed": 14,
+     "n_not_listed": 39,
+     "n_prot_lt20pct": 22,
+     "n_prot_20_30pct": 12,
+     "n_prot_ge30pct": 19,
+     "mean_range_protected": 0.2887010120421835,
+     "aoi_land_protected": 0.2613483924122547
+    },
+    {
+     "taxon_group": "Amphibians",
+     "n_sgcn": 33,
+     "n_listed": 16,
+     "n_fed_listed": 10,
+     "n_state_listed": 13,
+     "n_not_listed": 17,
+     "n_prot_lt20pct": 18,
+     "n_prot_20_30pct": 8,
+     "n_prot_ge30pct": 7,
+     "mean_range_protected": 0.2438243504110475,
+     "aoi_land_protected": 0.2613483924122547
+    },
+    {
+     "taxon_group": "Reptiles",
+     "n_sgcn": 25,
+     "n_listed": 5,
+     "n_fed_listed": 3,
+     "n_state_listed": 5,
+     "n_not_listed": 20,
+     "n_prot_lt20pct": 14,
+     "n_prot_20_30pct": 3,
+     "n_prot_ge30pct": 8,
+     "mean_range_protected": 0.28069596384944806,
+     "aoi_land_protected": 0.2613483924122547
+    }
+   ],
+   "critical_habitat": [
+    {
+     "n_ch_species": 110,
+     "n_ch_endangered": 68,
+     "ch_acres": 14597940,
+     "ch_frac_protected": 0.4229964321224005
+    }
+   ],
+   "ch_species": [
+    {
+     "common_name": "Desert tortoise",
+     "scientific_name": "Gopherus agassizii",
+     "listing": "Threatened",
+     "ch_acres": 4756370.775148438,
+     "ch_acres_protected": 2544957.0393328373,
+     "ch_acres_unprotected": 2211413.7358156,
+     "frac_protected": 0.5350627946479664
+    },
+    {
+     "common_name": "Northern spotted owl",
+     "scientific_name": "Strix occidentalis caurina",
+     "listing": "Threatened",
+     "ch_acres": 2097080.641214609,
+     "ch_acres_protected": 175588.05889507185,
+     "ch_acres_unprotected": 1921492.5823195355,
+     "frac_protected": 0.08372976005032069
+    },
+    {
+     "common_name": "California red-legged frog",
+     "scientific_name": "Rana draytonii",
+     "listing": "Threatened",
+     "ch_acres": 1638152.8165169272,
+     "ch_acres_protected": 509607.11706609296,
+     "ch_acres_unprotected": 1128545.6994508363,
+     "frac_protected": 0.31108643340712844
+    },
+    {
+     "common_name": "Sierra Nevada Yellow-legged Frog",
+     "scientific_name": "Rana sierrae",
+     "listing": "Endangered",
+     "ch_acres": 1087906.5125858008,
+     "ch_acres_protected": 744934.0141065231,
+     "ch_acres_unprotected": 342972.4984792778,
+     "frac_protected": 0.6847408352542349
+    },
+    {
+     "common_name": "Delta smelt",
+     "scientific_name": "Hypomesus transpacificus",
+     "listing": "Threatened",
+     "ch_acres": 819377.1920848177,
+     "ch_acres_protected": 89940.44629858194,
+     "ch_acres_unprotected": 729436.7457862364,
+     "frac_protected": 0.10976684141004472
+    },
+    {
+     "common_name": "Yosemite toad",
+     "scientific_name": "Anaxyrus canorus",
+     "listing": "Threatened",
+     "ch_acres": 749542.1576819749,
+     "ch_acres_protected": 582264.8815733936,
+     "ch_acres_unprotected": 167277.2761085818,
+     "frac_protected": 0.7768273947046539
+    },
+    {
+     "common_name": "California condor",
+     "scientific_name": "Gymnogyps californianus",
+     "listing": "Endangered",
+     "ch_acres": 604875.3542809288,
+     "ch_acres_protected": 292516.73867589084,
+     "ch_acres_unprotected": 312358.6156050389,
+     "frac_protected": 0.4835983754432059
+    },
+    {
+     "common_name": "Marbled murrelet",
+     "scientific_name": "Brachyramphus marmoratus",
+     "listing": "Threatened",
+     "ch_acres": 595386.452611077,
+     "ch_acres_protected": 242799.81192901556,
+     "ch_acres_unprotected": 352586.6406820613,
+     "frac_protected": 0.4078020433018136
+    },
+    {
+     "common_name": "Vernal pool fairy shrimp",
+     "scientific_name": "Branchinecta lynchi",
+     "listing": "Threatened",
+     "ch_acres": 594826.2993175123,
+     "ch_acres_protected": 105614.93022889251,
+     "ch_acres_unprotected": 489211.36908861995,
+     "frac_protected": 0.17755591901378978
+    },
+    {
+     "common_name": "Sierra Nevada bighorn sheep",
+     "scientific_name": "Ovis canadensis sierrae",
+     "listing": "Endangered",
+     "ch_acres": 417558.72037804936,
+     "ch_acres_protected": 394951.5542855569,
+     "ch_acres_unprotected": 22607.166092492473,
+     "frac_protected": 0.9458587140222473
+    }
+   ]
+  },
+  "climate": {
+   "heat": [
+    {
+     "bio5_baseline_c": 31.93359801697384,
+     "bio5_future_c": 34.34210885636878,
+     "bio5_increase_c": 2.4085108393947694,
+     "bio5_increase_min_c": 1.2999992370605469,
+     "bio5_increase_max_c": 3.3000011444091797,
+     "bio5_increase_model_lo_c": 1.6908995589539482,
+     "bio5_increase_model_hi_c": 4.166495541251028,
+     "bio1_increase_c": 2.1515070383796195,
+     "bio5_increase_protected_c": 2.393024663210912,
+     "bio5_increase_unprotected_c": 2.414000975395251,
+     "n_cells": 521974
+    }
+   ],
+   "water": [
+    {
+     "land_km2": 409888.3546202275,
+     "fld100_share": 0.07246802999388796,
+     "fld500_share": 0.08435576963383161,
+     "slr5ft_share": 0.006905857500322821,
+     "fld100_km2": 29703.80157676403,
+     "fld500_km2": 34576.44761793419,
+     "slr5ft_km2": 2830.630568049078,
+     "fld100_share_protected": 0.04503628871465722,
+     "fld100_share_unprotected": 0.08219478603323395,
+     "fld500_share_protected": 0.04733018094773142,
+     "fld500_share_unprotected": 0.09748431531006008,
+     "slr5ft_share_protected": 0.0058687376808821195,
+     "slr5ft_share_unprotected": 0.00727359979435313
+    }
+   ],
+   "fire": [
+    {
+     "burned_ac_unique": 4655182.389296799,
+     "burned_ac_incl_reburn": 4667408.675146132,
+     "burned_ac_protected": 1249352.9000635934,
+     "burned_ac_unprotected": 3405829.489233201,
+     "rx_ac_unique": 479834.4026165466,
+     "rx_ac_protected": 100799.87905540405,
+     "burned_share": 0.04587672493865612,
+     "burned_share_protected": 0.04711085668990144,
+     "burned_share_unprotected": 0.04544006664684482,
+     "rx_share": 0.004728757987132047,
+     "land_ac": 101471550.01847795,
+     "prot_ac": 26519426.47290898
+    }
+   ],
+   "whp": [
+    {
+     "mapped_land_km2": 410641.03361717536,
+     "whp_high_share": 0.30133073372808283,
+     "whp_high_share_burnable": 0.3945124934222867,
+     "whp_high_share_protected": 0.2253084870710098,
+     "whp_high_share_unprotected": 0.32822881286550787
+    }
+   ],
+   "fire_by_year": [
+    {
+     "year": "2021",
+     "wildfire_ac": 2497560.4211805584,
+     "rx_burn_ac": 82821.9253226133
+    },
+    {
+     "year": "2022",
+     "wildfire_ac": 323439.203063206,
+     "rx_burn_ac": 105575.94554925743
+    },
+    {
+     "year": "2023",
+     "wildfire_ac": 326180.0345711018,
+     "rx_burn_ac": 155785.459126433
+    },
+    {
+     "year": "2024",
+     "wildfire_ac": 1010038.2144026571,
+     "rx_burn_ac": 129384.33172032921
+    },
+    {
+     "year": "2025",
+     "wildfire_ac": 510190.8019285956,
+     "rx_burn_ac": 91942.66421721294
+    }
+   ],
+   "heat_scenarios": [
+    {
+     "scenario": "Low (SSP1-2.6)",
+     "mid_century_c": 1.939240762696502,
+     "end_century_c": 1.708573116703372
+    },
+    {
+     "scenario": "Medium-high (SSP3-7.0)",
+     "mid_century_c": 2.40851083939477,
+     "end_century_c": 3.542584055365866
+    },
+    {
+     "scenario": "Very high (SSP5-8.5)",
+     "mid_century_c": 2.6740962489261437,
+     "end_century_c": 4.6732527784111415
+    }
+   ]
+  }
+ }
+}

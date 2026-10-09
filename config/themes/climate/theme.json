@@ -1,0 +1,178 @@
+{
+    "label": "Climate risk",
+    "color": "#c2410c",
+    "blurb": "Projected heat, flood and sea-level-rise exposure, recent wildfire and prescribed burns, and wildfire hazard.",
+    "queries": {
+        "heat": {
+            "file": "heat.sql"
+        },
+        "water": {
+            "file": "water.sql"
+        },
+        "fire": {
+            "file": "fire.sql"
+        },
+        "whp": {
+            "file": "whp.sql"
+        },
+        "fire_by_year": {
+            "file": "fire_by_year.sql"
+        },
+        "heat_scenarios": {
+            "file": "heat_scenarios.sql"
+        },
+        "map": {
+            "file": "map.sql",
+            "statewide": false
+        }
+    },
+    "headlines": [
+        {
+            "query": "heat",
+            "field": "bio5_increase_c",
+            "label": "Hottest-month warming by 2041–70",
+            "format": "degC",
+            "detail_field": "bio5_baseline_c",
+            "detail_format": "tempC",
+            "detail_template": "from a {} max (1981–2010), SSP3-7.0"
+        },
+        {
+            "query": "water",
+            "field": "fld100_share",
+            "label": "Land in 100-year floodplain",
+            "format": "pct",
+            "detail_field": "fld500_share",
+            "detail_format": "pct",
+            "detail_template": "{} including the 500-year zone"
+        },
+        {
+            "query": "fire",
+            "field": "burned_ac_unique",
+            "label": "Burned by wildfire, 2021–25",
+            "format": "acres",
+            "detail_field": "burned_share",
+            "detail_format": "pct",
+            "detail_template": "{} of land"
+        },
+        {
+            "query": "whp",
+            "field": "whp_high_share",
+            "label": "High / very high wildfire hazard",
+            "format": "pct"
+        }
+    ],
+    "charts": [
+        {
+            "title": "Exposure on protected vs unprotected land",
+            "subtitle": "Share of each kind of land exposed to each hazard",
+            "category": "__label",
+            "format": "pct",
+            "pivot": [
+                {
+                    "label": "100-yr floodplain",
+                    "query": "water",
+                    "fields": {
+                        "prot": "fld100_share_protected",
+                        "unprot": "fld100_share_unprotected"
+                    }
+                },
+                {
+                    "label": "5 ft sea-level rise",
+                    "query": "water",
+                    "fields": {
+                        "prot": "slr5ft_share_protected",
+                        "unprot": "slr5ft_share_unprotected"
+                    }
+                },
+                {
+                    "label": "Burned 2021–25",
+                    "query": "fire",
+                    "fields": {
+                        "prot": "burned_share_protected",
+                        "unprot": "burned_share_unprotected"
+                    }
+                },
+                {
+                    "label": "High wildfire hazard",
+                    "query": "whp",
+                    "fields": {
+                        "prot": "whp_high_share_protected",
+                        "unprot": "whp_high_share_unprotected"
+                    }
+                }
+            ],
+            "series": [
+                {
+                    "field": "prot",
+                    "label": "Protected land (GAP 1–2)",
+                    "color": "#1f7a3a"
+                },
+                {
+                    "field": "unprot",
+                    "label": "Unprotected land",
+                    "color": "#c2410c"
+                }
+            ]
+        },
+        {
+            "query": "fire_by_year",
+            "title": "Wildfire and prescribed burns by year",
+            "subtitle": "Acres burned (each acre counted once per year)",
+            "category": "year",
+            "format": "acres",
+            "series": [
+                {
+                    "field": "wildfire_ac",
+                    "label": "Wildfire",
+                    "color": "#c2410c"
+                },
+                {
+                    "field": "rx_burn_ac",
+                    "label": "Prescribed burn",
+                    "color": "#eda100"
+                }
+            ]
+        },
+        {
+            "query": "heat_scenarios",
+            "title": "Hottest-month warming by scenario",
+            "subtitle": "Change in max temperature of the warmest month vs 1981–2010 (5-model median)",
+            "category": "scenario",
+            "format": "degC",
+            "series": [
+                {
+                    "field": "mid_century_c",
+                    "label": "2041–2070",
+                    "color": "#f59e6b"
+                },
+                {
+                    "field": "end_century_c",
+                    "label": "2071–2100",
+                    "color": "#c2410c"
+                }
+            ]
+        }
+    ],
+    "map": {
+        "query": "map",
+        "id_field": "GEOID",
+        "value_field": "value",
+        "label": "Share of tract in a hazard zone",
+        "format": "pct",
+        "breaks": [
+            0.05,
+            0.2,
+            0.4,
+            0.6
+        ],
+        "ramp": [
+            "#fdeee3",
+            "#f9c39f",
+            "#f08a4b",
+            "#d0531a",
+            "#8f2d07"
+        ],
+        "note": "100-yr floodplain, 5 ft sea-level rise, or high/very high wildfire hazard"
+    },
+    "method": "Heat: CHELSA 2.1 BIO5 (max temperature of the warmest month), 1981–2010 baseline vs 2041–2070 under SSP3-7.0, median of five CMIP6 models, land-area weighted. Flood: FEMA National Flood Hazard Layer — the 100-year floodplain is the Special Flood Hazard Area; the 500-year figure adds the 0.2%-annual-chance zone; FEMA open-water cells are excluded. Sea-level rise: NOAA 5 ft inundation. Fire: CAL FIRE fire perimeters and prescribed burns 2021–2025, each burned cell counted once. Wildfire hazard: USFS Wildfire Hazard Potential 2023, classes High and Very High. Protected = GAP 1–2 in the 2025 30x30 Conserved Areas inventory, using per-cell shares at each dataset's resolution."
+}

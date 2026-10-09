@@ -1,0 +1,80 @@
+{
+    "label": "At a glance",
+    "color": "#006837",
+    "queries": {
+        "protection": {
+            "file": "protection.sql"
+        },
+        "people": {
+            "file": "people.sql"
+        },
+        "wcb": {
+            "file": "wcb.sql"
+        }
+    },
+    "headlines": [
+        {
+            "query": "protection",
+            "field": "frac_gap12",
+            "label": "Land protected (30x30)",
+            "format": "pct",
+            "detail_field": "gap12_acres",
+            "detail_format": "acres",
+            "detail_template": "{} in GAP 1–2"
+        },
+        {
+            "query": "wcb",
+            "field": "wcb_funding",
+            "label": "WCB funding received",
+            "format": "usd",
+            "compare": false,
+            "detail_field": "n_projects",
+            "detail_format": "int",
+            "detail_template": "{} approved projects"
+        },
+        {
+            "query": "people",
+            "field": "population",
+            "label": "Population",
+            "format": "compact"
+        },
+        {
+            "query": "people",
+            "field": "income",
+            "label": "Median household income",
+            "format": "usd",
+            "note": "Population-weighted mean of block-group medians"
+        }
+    ],
+    "charts": [
+        {
+            "query": "protection",
+            "title": "Land by protection status",
+            "subtitle": "Share of land area · GAP 1–2 counts toward 30x30; GAP 3–4 is other conserved or public land",
+            "statewide_row": true,
+            "category": "__label",
+            "stacked": true,
+            "format": "pct",
+            "domain_max": 1,
+            "series": [
+                {
+                    "field": "frac_gap12",
+                    "label": "Protected (GAP 1–2)",
+                    "color": "#1f7a3a"
+                },
+                {
+                    "field": "frac_gap34",
+                    "label": "Other conserved (GAP 3–4)",
+                    "color": "#9fd09a"
+                },
+                {
+                    "field": "frac_none",
+                    "label": "Not in conserved-area inventory",
+                    "color": "#d5d9d3"
+                }
+            ],
+            "show_total": false
+        }
+    ],
+    "method": "Land area and protection status come from California's 2025 30x30 Conserved Areas inventory on the state's ecoregion land grid (resolution-10 H3 cells, ~0.015 km²); only GAP 1–2 counts as protected. Population and income are ACS 2020–2024 block groups assigned to the area when most of the block group lies inside it; income is a population-weighted mean of block-group median household incomes, not a true area median. WCB funding is Wildlife Conservation Board approved-project funding, allocated by the share of each project's mapped footprint inside the area (some project polygons are approximate)."
+}

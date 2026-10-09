@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: biodiversity
+  name: tpl-cities
+  labels:
+    app: tpl-cities
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: tpl-cities
+  template:
+    metadata:
+      labels:
+        app: tpl-cities
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: feature.node.kubernetes.io/pci-10de.present
+                    operator: NotIn
+                    values: ["true"]
+      initContainers:
+      - name: git-clone
+        image: alpine/git:2.52.0
+        command:
+        - sh
+        - -c
+        - |
+          git clone --depth 1 https://github.com/boettiger-lab/tpl-cities.git /tmp/repo
+          cp -r /tmp/repo/index.html /tmp/repo/app /tmp/repo/config /tmp/repo/data /usr/share/nginx/html/
+        volumeMounts:
+        - name: website-content
+          mountPath: /usr/share/nginx/html
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        command:
+        - sh
+        - -c
+        - |
+          cp /nginx-template/default.conf /etc/nginx/conf.d/default.conf
+          sed -i 's/^worker_processes.*/worker_processes 2;/' /etc/nginx/nginx.conf
+          nginx -g 'daemon off;'
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+        volumeMounts:
+        - name: website-content
+          mountPath: /usr/share/nginx/html
+        - name: nginx-template
+          mountPath: /nginx-template
+          readOnly: true
+        - name: nginx-conf-d
+          mountPath: /etc/nginx/conf.d
+        livenessProbe:
+          httpGet: { path: /health, port: 80 }
+          initialDelaySeconds: 10
+          periodSeconds: 30
+        readinessProbe:
+          httpGet: { path: /health, port: 80 }
+          initialDelaySeconds: 5
+          periodSeconds: 10
+      volumes:
+      - name: website-content
+        emptyDir: {}
+      - name: nginx-template
+        configMap:
+          name: tpl-cities-nginx
+      - name: nginx-conf-d
+        emptyDir: {}

@@ -1,0 +1,126 @@
+{
+    "label": "Health & equity",
+    "color": "#7b3fa0",
+    "blurb": "Park access, disadvantaged communities, and cumulative environmental burden (CalEnviroScreen).",
+    "queries": {
+        "parks": {
+            "file": "parks.sql"
+        },
+        "dac": {
+            "file": "dac.sql"
+        },
+        "ces": {
+            "file": "ces.sql"
+        },
+        "map": {
+            "file": "map.sql",
+            "statewide": false
+        }
+    },
+    "headlines": [
+        {
+            "query": "parks",
+            "field": "frac_pop_no_park",
+            "label": "Residents > ½ mile from a park",
+            "format": "pct",
+            "detail_field": "pop_no_park",
+            "detail_format": "compact",
+            "detail_template": "{} people"
+        },
+        {
+            "query": "parks",
+            "field": "frac_pop_park_poor",
+            "label": "Residents in park-poor tracts",
+            "format": "pct",
+            "note": "Under 3 park acres per 1,000 residents"
+        },
+        {
+            "query": "dac",
+            "row": {
+                "grp": "DAC tracts"
+            },
+            "field": "frac_pop",
+            "label": "Residents in disadvantaged communities",
+            "format": "pct",
+            "detail_field": "n_tracts",
+            "detail_format": "int",
+            "detail_template": "{} DAC tracts"
+        },
+        {
+            "query": "ces",
+            "field": "ces_pctl",
+            "label": "CalEnviroScreen percentile",
+            "format": "num1",
+            "detail_field": "frac_pop_top25",
+            "detail_format": "pct",
+            "detail_template": "{} of residents in top-25% tracts"
+        }
+    ],
+    "charts": [
+        {
+            "query": "dac",
+            "title": "Who lives where the protected land is?",
+            "subtitle": "Share of residents, land, and protected (GAP 1–2) land in disadvantaged vs other tracts",
+            "category": "grp",
+            "format": "pct",
+            "domain_max": 1,
+            "series": [
+                {
+                    "field": "frac_pop",
+                    "label": "Residents",
+                    "color": "#7b3fa0"
+                },
+                {
+                    "field": "frac_land",
+                    "label": "Land",
+                    "color": "#c9a6de"
+                },
+                {
+                    "field": "frac_gap12",
+                    "label": "Protected land",
+                    "color": "#1f7a3a"
+                }
+            ]
+        },
+        {
+            "query": "ces",
+            "title": "Residents by CalEnviroScreen percentile",
+            "subtitle": "Share of residents in tracts of each statewide decile (California is ~10% each)",
+            "category": "decile",
+            "format": "pct",
+            "series": [
+                {
+                    "field": "frac_pop",
+                    "label": "Share of residents",
+                    "color": "#7b3fa0"
+                }
+            ],
+            "compare": {
+                "field": "frac_pop",
+                "label": "California"
+            }
+        }
+    ],
+    "map": {
+        "query": "map",
+        "id_field": "GEOID",
+        "value_field": "value",
+        "label": "CalEnviroScreen 5.0 percentile",
+        "format": "num1",
+        "breaks": [
+            20,
+            40,
+            60,
+            80
+        ],
+        "ramp": [
+            "#efe7f4",
+            "#d2bce3",
+            "#ad8bcb",
+            "#8659ad",
+            "#5b2c83"
+        ],
+        "note": "Census tracts · statewide percentile (higher = more burdened)"
+    },
+    "method": "Park access uses the California SCORP 2020 Park Access Tool: no-access areas (> ½ mile from a park) are overlaid on ACS 2020–24 block groups, assuming people are spread evenly within each block group; park-poor tracts (< 3 park acres per 1,000 residents) use the tool's 2010 tracts. Disadvantaged communities are DWR 2023 income-based DAC tracts (median household income below 80% of the statewide figure) — not the SB 535 CalEnviroScreen designation. CalEnviroScreen 5.0 (draft) percentiles are population-weighted across tracts. Tracts and block groups count toward the area when most of their area lies inside it. Protected = GAP 1–2 in the 2025 30x30 Conserved Areas inventory."
+}

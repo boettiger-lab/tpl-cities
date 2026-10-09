@@ -1,0 +1,102 @@
+{
+    "title": "California Community Profiles",
+    "mcp_url": "https://duckdb-mcp.nrp-nautilus.io/mcp",
+    "view": { "center": [-119.5, 37.3], "zoom": 5.4 },
+
+    "overview": "overview",
+    "themes": ["biodiversity", "equity", "climate"],
+
+    "statewide": {
+        "aoi": "SELECT DISTINCT h0, h8 FROM read_parquet('s3://public-ca30x30/ecoregion/hex-res8/h0=*/data_0.parquet')",
+        "aoi10": "SELECT DISTINCT h0, h8, h10 FROM read_parquet('s3://public-ca30x30/ecoregion/hex/h0=*/data_0.parquet')"
+    },
+
+    "tracts": {
+        "url": "https://s3-west.nrp-nautilus.io/public-census/census-2024/tract.pmtiles",
+        "source_layer": "tract",
+        "id_prop": "GEOID"
+    },
+
+    "jurisdictions": [
+        {
+            "id": "city",
+            "label": "Cities",
+            "singular": "City",
+            "description": "Incorporated cities and towns (2024 Census places)",
+            "aoi": "SELECT DISTINCT h0, h8 FROM read_parquet('s3://public-census/census-2024/place/hex/h0=*/data_0.parquet') WHERE STATEFP = '06' AND GEOID = '{{ID}}'",
+            "aoi10": "SELECT DISTINCT h0, h8, h10 FROM read_parquet('s3://public-census/census-2024/place/hex/h0=*/data_0.parquet') WHERE STATEFP = '06' AND GEOID = '{{ID}}'",
+            "list": "SELECT GEOID AS id, NAME AS name, CASE WHEN LSAD = '43' THEN 'town' ELSE 'city' END AS detail, ST_XMin(geom) AS xmin, ST_YMin(geom) AS ymin, ST_XMax(geom) AS xmax, ST_YMax(geom) AS ymax FROM read_parquet('s3://public-census/census-2024/place.parquet') WHERE STATEFP = '06' AND CLASSFP LIKE 'C%' ORDER BY NAME",
+            "boundary": {
+                "url": "https://s3-west.nrp-nautilus.io/public-census/census-2024/place.pmtiles",
+                "source_layer": "place",
+                "id_prop": "GEOID",
+                "name_prop": "NAMELSAD",
+                "filter": ["all", ["==", ["get", "STATEFP"], "06"], ["==", ["slice", ["get", "CLASSFP"], 0, 1], "C"]]
+            }
+        },
+        {
+            "id": "county",
+            "label": "Counties",
+            "singular": "County",
+            "description": "California's 58 counties (2024 Census)",
+            "aoi": "SELECT DISTINCT h0, h8 FROM read_parquet('s3://public-census/census-2024/county/hex/h0=*/data_0.parquet') WHERE STATEFP = '06' AND GEOID = '{{ID}}'",
+            "aoi10": "SELECT DISTINCT h0, h8, h10 FROM read_parquet('s3://public-census/census-2024/tract/hex/h0=*/data_0.parquet') WHERE STATEFP = '06' AND GEOID LIKE '{{ID}}%'",
+            "list": "SELECT GEOID AS id, NAMELSAD AS name, ST_XMin(geom) AS xmin, ST_YMin(geom) AS ymin, ST_XMax(geom) AS xmax, ST_YMax(geom) AS ymax FROM read_parquet('s3://public-census/census-2024/county.parquet') WHERE STATEFP = '06' ORDER BY NAME",
+            "boundary": {
+                "url": "https://s3-west.nrp-nautilus.io/public-census/census-2024/county.pmtiles",
+                "source_layer": "county",
+                "id_prop": "GEOID",
+                "name_prop": "NAMELSAD",
+                "filter": ["==", ["get", "STATEFP"], "06"]
+            }
+        },
+        {
+            "id": "cd",
+            "label": "Congressional",
+            "singular": "Congressional district",
+            "description": "U.S. House districts (119th Congress)",
+            "aoi": "SELECT DISTINCT h0, h8 FROM read_parquet('s3://public-census/census-2024/cd/hex/h0=*/data_0.parquet') WHERE STATEFP = '06' AND GEOID = '{{ID}}'",
+            "aoi10": "SELECT DISTINCT h0, h8, h10 FROM read_parquet('s3://public-census/census-2024/cd/hex/h0=*/data_0.parquet') WHERE STATEFP = '06' AND GEOID = '{{ID}}'",
+            "list": "SELECT GEOID AS id, NAMELSAD AS name, ST_XMin(geom) AS xmin, ST_YMin(geom) AS ymin, ST_XMax(geom) AS xmax, ST_YMax(geom) AS ymax FROM read_parquet('s3://public-census/census-2024/cd.parquet') WHERE STATEFP = '06' ORDER BY GEOID",
+            "boundary": {
+                "url": "https://s3-west.nrp-nautilus.io/public-census/census-2024/cd.pmtiles",
+                "source_layer": "cd",
+                "id_prop": "GEOID",
+                "name_prop": "NAMELSAD",
+                "filter": ["==", ["get", "STATEFP"], "06"]
+            }
+        },
+        {
+            "id": "sldu",
+            "label": "State Senate",
+            "singular": "Senate district",
+            "description": "California State Senate districts (upper chamber)",
+            "aoi": "SELECT DISTINCT h0, h8 FROM read_parquet('s3://public-census/census-2025/sldu/hex/h0=*/data_0.parquet') WHERE STATEFP = '06' AND GEOID = '{{ID}}'",
+            "aoi10": "SELECT DISTINCT h0, h8, h10 FROM read_parquet('s3://public-census/census-2025/sldu/hex/h0=*/data_0.parquet') WHERE STATEFP = '06' AND GEOID = '{{ID}}'",
+            "list": "SELECT GEOID AS id, NAMELSAD AS name, ST_XMin(geom) AS xmin, ST_YMin(geom) AS ymin, ST_XMax(geom) AS xmax, ST_YMax(geom) AS ymax FROM read_parquet('s3://public-census/census-2025/sldu.parquet') WHERE STATEFP = '06' ORDER BY GEOID",
+            "boundary": {
+                "url": "https://s3-west.nrp-nautilus.io/public-census/census-2025/sldu.pmtiles",
+                "source_layer": "sldu",
+                "id_prop": "GEOID",
+                "name_prop": "NAMELSAD",
+                "filter": ["==", ["get", "STATEFP"], "06"]
+            }
+        },
+        {
+            "id": "sldl",
+            "label": "State Assembly",
+            "singular": "Assembly district",
+            "description": "California State Assembly districts (lower chamber)",
+            "aoi": "SELECT DISTINCT h0, h8 FROM read_parquet('s3://public-census/census-2025/sldl/hex/h0=*/data_0.parquet') WHERE STATEFP = '06' AND GEOID = '{{ID}}'",
+            "aoi10": "SELECT DISTINCT h0, h8, h10 FROM read_parquet('s3://public-census/census-2025/sldl/hex/h0=*/data_0.parquet') WHERE STATEFP = '06' AND GEOID = '{{ID}}'",
+            "list": "SELECT GEOID AS id, NAMELSAD AS name, ST_XMin(geom) AS xmin, ST_YMin(geom) AS ymin, ST_XMax(geom) AS xmax, ST_YMax(geom) AS ymax FROM read_parquet('s3://public-census/census-2025/sldl.parquet') WHERE STATEFP = '06' ORDER BY GEOID",
+            "boundary": {
+                "url": "https://s3-west.nrp-nautilus.io/public-census/census-2025/sldl.pmtiles",
+                "source_layer": "sldl",
+                "id_prop": "GEOID",
+                "name_prop": "NAMELSAD",
+                "filter": ["==", ["get", "STATEFP"], "06"]
+            }
+        }
+    ]
+}
