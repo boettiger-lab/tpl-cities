@@ -1,0 +1,37 @@
+{
+    "label": "Within reach",
+    "color": "#006837",
+    "queries": {
+        "reach": { "file": "reach.sql" },
+        "nearest_park": { "file": "nearest_park.sql", "statewide": false },
+        "by_band": { "file": "by_band.sql", "statewide": false }
+    },
+    "headlines": [
+        { "query": "reach", "field": "population", "label": "People within reach", "format": "compact", "compare": false,
+          "detail_field": "land_km2", "detail_format": "num1", "detail_template": "{} km² reachable" },
+        { "query": "reach", "field": "frac_park", "label": "Land that is park", "format": "pct", "compare": false,
+          "detail_field": "park_acres", "detail_format": "acres", "detail_template": "{} of open-access parks" },
+        { "query": "nearest_park", "field": "dist_m", "label": "Nearest park", "format": "meters", "compare": false,
+          "detail_field": "park_name", "detail_format": "text", "detail_template": "{}" },
+        { "query": "reach", "field": "canopy", "label": "Tree canopy cover", "format": "pct", "compare": false }
+    ],
+    "charts": [
+        {
+            "query": "by_band",
+            "title": "Park acres within reach",
+            "subtitle": "Open-access park land reachable within each travel time",
+            "category": "band",
+            "format": "acres",
+            "series": [ { "field": "park_acres", "label": "Park acres", "color": "#2f8f5b" } ]
+        },
+        {
+            "query": "by_band",
+            "title": "People within reach",
+            "subtitle": "Residents living within each travel time (ACS 2020–24)",
+            "category": "band",
+            "format": "compact",
+            "series": [ { "field": "population", "label": "Residents", "color": "#6b7f6b" } ]
+        }
+    ],
+    "method": "Reachable areas are travel-time isochrones from the open-source Valhalla router on OpenStreetMap streets and paths, filled with resolution-10 H3 cells (~0.015 km²). Parks are TPL ParkServe 2025 parks with open public access; the nearest park is the straight-line distance from the starting point to the nearest park cell, searched within ~1.7 km. Tree canopy is LANDFIRE 2024 forest canopy cover averaged over all land (non-forest cells count as 0%), so it understates street trees. Population is ACS 2020–2024 block groups apportioned by the share of each block group inside the area."
+}

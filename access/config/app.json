@@ -1,0 +1,28 @@
+{
+    "title": "Nature Within Reach",
+    "mcp_url": "https://duckdb-mcp.nrp-nautilus.io/mcp",
+    "view": { "center": [-119.5, 37.3], "zoom": 5.4 },
+
+    "routing": { "provider": "valhalla", "url": "https://valhalla1.openstreetmap.de" },
+    "isochrones": {
+        "modes": ["walk", "bike", "drive"],
+        "minutes": [5, 10, 15],
+        "default_mode": "walk",
+        "default_minutes": 15
+    },
+
+    "overview": "reach",
+    "themes": ["nature", "community"],
+    "compare_label": "California",
+
+    "statewide": {
+        "aoi": "SELECT DISTINCT h0, h8 FROM read_parquet('s3://public-ca30x30/ecoregion/hex-res8/h0=*/data_0.parquet')",
+        "aoi10": "SELECT DISTINCT h0, h8, h10 FROM read_parquet('s3://public-ca30x30/ecoregion/hex/h0=*/data_0.parquet')"
+    },
+
+    "tracts": {
+        "url": "https://s3-west.nrp-nautilus.io/public-census/census-2024/tract.pmtiles",
+        "source_layer": "tract",
+        "id_prop": "GEOID"
+    }
+}

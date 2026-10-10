@@ -79,6 +79,28 @@ Add an entry to `jurisdictions` in `config/app.json`. It needs:
 
 Then run `node scripts/precompute.mjs lists`. Drawn or uploaded polygons are planned to plug in the same way, with an AOI built from an H3 polyfill.
 
+## Site variants
+
+Each subfolder with an `index.html` is a separate variant served at its own path. Variants share the code in `app/` and keep their own `config/` and `data/`.
+
+| Path | Variant |
+|---|---|
+| `/` | **Community Profiles**: jurisdiction-based profiles (this README) |
+| `/access/` | **Nature Within Reach**: click a point and choose walk, bike or drive and 5/10/15 minutes; summarises the reachable area (isochrone) |
+
+To make a new variant, copy a variant folder, edit its `config/app.json` and themes, and run `node scripts/precompute.mjs --site <folder> statewide`. A theme id in `app.json` can be a path such as `"../config/themes/equity"`, so variants can reuse each other's themes.
+
+### Isochrone AOIs (`/access/`)
+
+- Travel-time polygons come from a [Valhalla](https://github.com/valhalla/valhalla) router: the public FOSSGIS server by default, set in `routing.url`.
+- `app/iso.js` turns the polygons into SQL. The DuckDB server fills them with res-10 H3 cells (`h3_polygon_wkt_to_cells`), so every theme's SQL runs unchanged on an isochrone. Drawn or uploaded polygons can use the same path (`polygonAoi`).
+- Isochrone AOIs add these tokens:
+  - `{{BANDS10}}`: every cell labelled with the smallest 5/10/15-minute band that reaches it, for "reach grows with time" charts.
+  - `{{ORIGIN_LAT}}` and `{{ORIGIN_LON}}`: the starting point.
+- A theme's `map.type: "hex"` draws res-9 hexagons from H3 id strings (`h3_h3_to_string`) instead of census tracts.
+
+See `notes/isochrones.md` for the routing options (on the fly vs precomputed, and transit).
+
 ## Run locally
 
 ```sh

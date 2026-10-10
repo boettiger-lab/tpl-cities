@@ -5,7 +5,9 @@ const nf1 = new Intl.NumberFormat('en-US', { maximumFractionDigits: 1 });
 const compact = new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 1 });
 
 export function fmt(value, format = 'num') {
-    if (value === null || value === undefined || value === '' || Number.isNaN(Number(value))) return '—';
+    if (value === null || value === undefined || value === '') return '—';
+    if (format === 'text') return String(value);
+    if (Number.isNaN(Number(value))) return '—';
     const v = Number(value);
     switch (format) {
         case 'int': return nf0.format(v);
@@ -17,6 +19,8 @@ export function fmt(value, format = 'num') {
         case 'num1': return nf1.format(v);
         case 'per1k': return nf1.format(v);
         case 'degC': return (v > 0 ? '+' : '') + nf1.format(v) + ' °C';   // a change
+        case 'meters': return v >= 1000 ? nf1.format(v / 1000) + ' km' : nf0.format(Math.round(v / 10) * 10) + ' m';
+        case 'text': return String(value);
         case 'tempC': return nf1.format(v) + ' °C';                         // a level
         default: return Math.abs(v) >= 1e5 ? compact.format(v) : nf1.format(v);
     }

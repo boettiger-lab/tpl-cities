@@ -1,0 +1,39 @@
+{
+    "label": "Community",
+    "color": "#7b3fa0",
+    "blurb": "Who lives within reach: environmental burden, disadvantaged communities, and income.",
+    "queries": {
+        "community": { "file": "community.sql" },
+        "map": { "file": "map.sql", "statewide": false }
+    },
+    "headlines": [
+        { "query": "community", "field": "ces_pctl", "label": "CalEnviroScreen percentile", "format": "num1",
+          "detail_field": "frac_pop_ces_top25", "detail_format": "pct", "detail_template": "{} of residents in top-25% tracts" },
+        { "query": "community", "field": "frac_pop_dac", "label": "Residents in disadvantaged communities", "format": "pct" },
+        { "query": "community", "field": "income", "label": "Median household income", "format": "usd",
+          "note": "Population-weighted mean of block-group medians" }
+    ],
+    "charts": [
+        {
+            "query": "community",
+            "title": "Residents by CalEnviroScreen percentile",
+            "subtitle": "Share of residents in tracts of each statewide decile (California is ~10% each)",
+            "category": "decile",
+            "format": "pct",
+            "series": [ { "field": "frac_pop", "label": "Share of residents", "color": "#7b3fa0" } ],
+            "compare": { "field": "frac_pop", "label": "California" },
+            "wide": true
+        }
+    ],
+    "map": {
+        "query": "map",
+        "id_field": "GEOID",
+        "value_field": "value",
+        "label": "CalEnviroScreen 5.0 percentile",
+        "format": "num1",
+        "breaks": [20, 40, 60, 80],
+        "ramp": ["#efe7f4", "#d2bce3", "#ad8bcb", "#8659ad", "#5b2c83"],
+        "note": "Census tracts touching the area · higher = more burdened"
+    },
+    "method": "CalEnviroScreen 5.0 (draft) tract percentiles, weighted by population. Disadvantaged communities are DWR 2023 income-based block groups (median household income below 80% of the statewide figure). Income is ACS 2020–2024. Every tract or block group is apportioned by the share of its area inside the reachable area, assuming people are spread evenly within it."
+}

@@ -9,6 +9,7 @@
  *   node scripts/precompute.mjs                 # everything
  *   node scripts/precompute.mjs lists           # pick lists only
  *   node scripts/precompute.mjs statewide [theme ...]
+ *   node scripts/precompute.mjs --site access statewide   # a site variant in ./access
  */
 
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
@@ -16,15 +17,18 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadConfig, Engine, statewideAoi } from '../app/engine.js';
 
-const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const argv = process.argv.slice(2);
+const siteAt = argv.indexOf('--site');
+const site = siteAt >= 0 ? argv.splice(siteAt, 2)[1] : '.';
+const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', site);
 const fetchText = p => readFile(p, 'utf8');
-const [what = 'all', ...only] = process.argv.slice(2);
+const [what = 'all', ...only] = argv;
 const config = await loadConfig(root, fetchText, what === "lists" ? { themes: ["overview"] } : only.length ? { themes: only } : {});
 const engine = new Engine(config, { mcpUrl: process.env.MCP_URL || config.app.mcp_url });
 
 if (what === 'all' || what === 'lists') {
     await mkdir(`${root}/data/lists`, { recursive: true });
-    for (const jur of config.app.jurisdictions) {
+    for (const jur of config.app.jurisdictions || []) {
         const t0 = Date.now();
         const rows = await engine.client.query(jur.list);
         await writeFile(`${root}/data/lists/${jur.id}.json`, JSON.stringify(rows));
