@@ -61,7 +61,8 @@ The same template runs for any area. The statewide comparison is simply the temp
                    "detail_field": "col", "detail_template": "{} …", "compare": true } ],
   "charts": [ { "query": "name", "title": "…", "category": "col", "series": [ {"field": "col", "label": "…", "color": "#hex"} ],
                 "stacked": true, "format": "…", "compare": {"field": "col"},   // statewide tick per row
-                "statewide_row": true, "exclude": {"col": "value"}, "sort": "desc", "limit": 10 } ],
+                "statewide_row": true, "exclude": {"col": "value"}, "sort": "desc", "limit": 10,
+                "wide": true } ],                                      // span both columns in a wide panel
   "map": { "query": "map", "id_field": "GEOID", "value_field": "value", "label": "…", "format": "…",
            "ramp": ["#…", "…"], "breaks": [ … ] }           // breaks optional (default: quantiles)
 }

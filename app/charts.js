@@ -50,8 +50,10 @@ export function renderBarChart(container, spec, rows, stateRows) {
         container.appendChild(lg);
     }
 
-    const W = 480, labelW = 150, valueW = 64, rowH = spec.stacked || series.length === 1 ? 24 : 12 * series.length + 12;
+    // draw at the container's real pixel width so text stays at its CSS size
+    const W = Math.max(300, Math.round(container.clientWidth || 480)), labelW = Math.min(150, Math.round(W * 0.34)), valueW = 64, rowH = spec.stacked || series.length === 1 ? 24 : 12 * series.length + 12;
     const barArea = W - labelW - valueW;
+    const maxChars = Math.max(8, Math.floor((labelW - 10) / 6.4));   // ~6.4px per char at 11.5px
     const top = 4, axisH = 18;
     const H = top + data.length * rowH + axisH;
 
@@ -80,8 +82,8 @@ export function renderBarChart(container, spec, rows, stateRows) {
     data.forEach((d, i) => {
         const y0 = top + i * rowH;
         const lab = el('text', { x: labelW - 8, y: y0 + rowH / 2 + 4, 'text-anchor': 'end' });
-        lab.textContent = truncate(String(d.cat), 23);
-        if (String(d.cat).length > 23) lab.appendChild(titleEl(String(d.cat)));
+        lab.textContent = truncate(String(d.cat), maxChars);
+        if (String(d.cat).length > maxChars) lab.appendChild(titleEl(String(d.cat)));
         svg.appendChild(lab);
 
         if (spec.stacked) {
