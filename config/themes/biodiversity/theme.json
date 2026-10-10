@@ -3,19 +3,60 @@
     "color": "#1f7a3a",
     "blurb": "Species of Greatest Conservation Need, listed species, and critical habitat — and how much of it is protected.",
     "queries": {
-        "sgcn": { "file": "sgcn.sql" },
-        "critical_habitat": { "file": "critical_habitat.sql" },
-        "ch_species": { "file": "ch_species.sql" },
-        "map": { "file": "map.sql", "statewide": false }
+        "sgcn": {
+            "file": "sgcn.sql"
+        },
+        "critical_habitat": {
+            "file": "critical_habitat.sql"
+        },
+        "ch_species": {
+            "file": "ch_species.sql"
+        },
+        "map": {
+            "file": "map.sql",
+            "statewide": false
+        }
     },
     "headlines": [
-        { "query": "sgcn", "row": { "taxon_group": "All" }, "field": "n_sgcn", "label": "SGCN species present", "format": "int",
-          "detail_field": "n_listed", "detail_format": "int", "detail_template": "{} federally or state listed" },
-        { "query": "sgcn", "row": { "taxon_group": "All" }, "field": "mean_range_protected", "label": "Avg. share of SGCN range protected", "format": "pct",
-          "detail_field": "aoi_land_protected", "detail_format": "pct", "detail_template": "vs. {} of all land here" },
-        { "query": "critical_habitat", "field": "n_ch_species", "label": "Species with critical habitat", "format": "int",
-          "detail_field": "ch_acres", "detail_format": "acres", "detail_template": "{} designated" },
-        { "query": "critical_habitat", "field": "ch_frac_protected", "label": "Critical habitat protected", "format": "pct" }
+        {
+            "query": "sgcn",
+            "row": {
+                "taxon_group": "All"
+            },
+            "field": "n_sgcn",
+            "label": "SGCN species present",
+            "format": "int",
+            "detail_field": "n_listed",
+            "detail_format": "int",
+            "detail_template": "{} federally or state listed"
+        },
+        {
+            "query": "sgcn",
+            "row": {
+                "taxon_group": "All"
+            },
+            "field": "mean_range_protected",
+            "label": "Avg. share of SGCN range protected",
+            "format": "pct",
+            "detail_field": "aoi_land_protected",
+            "detail_format": "pct",
+            "detail_template": "vs. {} of all land here"
+        },
+        {
+            "query": "critical_habitat",
+            "field": "n_ch_species",
+            "label": "Species with critical habitat",
+            "format": "int",
+            "detail_field": "ch_acres",
+            "detail_format": "acres",
+            "detail_template": "{} designated"
+        },
+        {
+            "query": "critical_habitat",
+            "field": "ch_frac_protected",
+            "label": "Critical habitat protected",
+            "format": "pct"
+        }
     ],
     "charts": [
         {
@@ -23,27 +64,54 @@
             "title": "SGCN species by group",
             "subtitle": "Vertebrate species whose range overlaps this area; tick = all SGCN in that group statewide",
             "category": "taxon_group",
-            "exclude": { "taxon_group": "All" },
+            "exclude": {
+                "taxon_group": "All"
+            },
             "stacked": true,
             "format": "int",
             "series": [
-                { "field": "n_listed", "label": "Listed (endangered/threatened)", "color": "#1f7a3a" },
-                { "field": "n_not_listed", "label": "Not listed", "color": "#9fd09a" }
+                {
+                    "field": "n_listed",
+                    "label": "Listed (endangered/threatened)",
+                    "color": "#1f7a3a"
+                },
+                {
+                    "field": "n_not_listed",
+                    "label": "Not listed",
+                    "color": "#9fd09a"
+                }
             ],
-            "compare": { "field": "n_sgcn", "label": "California total" }
+            "compare": {
+                "field": "n_sgcn",
+                "label": "California total"
+            }
         },
         {
             "query": "sgcn",
             "title": "How protected are their ranges here?",
             "subtitle": "SGCN species by share of their in-area range on GAP 1–2 land",
             "category": "taxon_group",
-            "exclude": { "taxon_group": "All" },
+            "exclude": {
+                "taxon_group": "All"
+            },
             "stacked": true,
             "format": "int",
             "series": [
-                { "field": "n_prot_ge30pct", "label": "≥ 30% protected", "color": "#1f7a3a" },
-                { "field": "n_prot_20_30pct", "label": "20–30%", "color": "#7cc07a" },
-                { "field": "n_prot_lt20pct", "label": "< 20%", "color": "#d5d9d3" }
+                {
+                    "field": "n_prot_ge30pct",
+                    "label": "≥ 30% protected",
+                    "color": "#1f7a3a"
+                },
+                {
+                    "field": "n_prot_20_30pct",
+                    "label": "20–30%",
+                    "color": "#7cc07a"
+                },
+                {
+                    "field": "n_prot_lt20pct",
+                    "label": "< 20%",
+                    "color": "#d5d9d3"
+                }
             ]
         },
         {
@@ -54,9 +122,18 @@
             "stacked": true,
             "format": "acres",
             "series": [
-                { "field": "ch_acres_protected", "label": "Protected (GAP 1–2)", "color": "#1f7a3a" },
-                { "field": "ch_acres_unprotected", "label": "Not protected", "color": "#d5d9d3" }
-            ]
+                {
+                    "field": "ch_acres_protected",
+                    "label": "Protected (GAP 1–2)",
+                    "color": "#1f7a3a"
+                },
+                {
+                    "field": "ch_acres_unprotected",
+                    "label": "Not protected",
+                    "color": "#d5d9d3"
+                }
+            ],
+            "wide": true
         }
     ],
     "map": {
@@ -65,7 +142,13 @@
         "value_field": "value",
         "label": "SGCN species (range overlap)",
         "format": "int",
-        "ramp": ["#e8f3e4", "#bfe0b5", "#86c47f", "#459a4c", "#1a6332"],
+        "ramp": [
+            "#e8f3e4",
+            "#bfe0b5",
+            "#86c47f",
+            "#459a4c",
+            "#1a6332"
+        ],
         "note": "Census tracts · quantile classes within this area"
     },
     "method": "SGCN are the 2025 California State Wildlife Action Plan's Species of Greatest Conservation Need; only the 318 vertebrate SGCN have range maps (the plant and invertebrate SGCN do not), so counts cover birds, mammals, fish, amphibians and reptiles. 'Listed' means federally or state endangered or threatened. A species' protected share is the land-area-weighted GAP 1–2 share of its range cells inside the area (30x30 Conserved Areas 2025, resolution-8 H3 cells); the 20% cut-off follows the 2025 Biodiversity Assessment's 'under-represented' threshold. Critical habitat is USFWS final designations (NMFS salmonid/marine habitat not included), measured on whole ~180-acre cells, which overstates small designations."

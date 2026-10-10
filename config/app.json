@@ -4,7 +4,7 @@
     "view": { "center": [-119.5, 37.3], "zoom": 5.4 },
 
     "overview": "overview",
-    "themes": ["biodiversity", "equity", "climate"],
+    "themes": ["equity", "climate", "biodiversity"],
 
     "statewide": {
         "aoi": "SELECT DISTINCT h0, h8 FROM read_parquet('s3://public-ca30x30/ecoregion/hex-res8/h0=*/data_0.parquet')",

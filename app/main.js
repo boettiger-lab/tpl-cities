@@ -42,6 +42,8 @@ async function boot() {
     mapView = new MapView('map', config.app);
     mapView.onPick = id => pickById(id);
 
+    for (const t of config.themes) state.themes.add(t.id);   // all dimensions on by default
+    state.mapTheme = config.themes[0]?.id ?? null;
     renderJurButtons();
     renderThemeButtons();
     wireSearch();
@@ -77,7 +79,7 @@ function renderThemeButtons() {
         b.type = 'button';
         b.dataset.id = t.id;
         b.style.setProperty('--c', t.color);
-        b.setAttribute('aria-pressed', 'false');
+        b.setAttribute('aria-pressed', String(state.themes.has(t.id)));
         b.innerHTML = `<span class="dot"></span>${escapeHtml(t.label)}`;
         b.title = t.blurb || t.label;
         b.onclick = () => toggleTheme(t.id);
@@ -284,7 +286,7 @@ function themeCard(theme, aoi, token, { overview = false } = {}) {
     const charts = card.querySelector('.charts');
     for (const c of theme.charts || []) {
         const box = document.createElement('div');
-        box.className = 'chart';
+        box.className = 'chart' + (c.wide ? ' wide' : '');
         box.innerHTML = `<h4>${escapeHtml(c.title)}</h4>${c.subtitle ? `<div class="sub">${escapeHtml(c.subtitle)}</div>` : ''}<div class="plot skeleton" style="height:120px"></div>`;
         charts.appendChild(box);
         const plot = box.querySelector('.plot');
@@ -413,7 +415,7 @@ function writeHash() {
     if (state.jur) parts.push(state.jur.id);
     if (state.jur && state.feature) parts.push(encodeURIComponent(state.feature.id));
     const q = new URLSearchParams();
-    if (state.themes.size) q.set('themes', orderedThemes().map(t => t.id).join(','));
+    if (state.themes.size !== config.themes.length) q.set('themes', orderedThemes().map(t => t.id).join(','));
     if (state.mapTheme) q.set('map', state.mapTheme);
     const hash = '#' + parts.join('/') + (q.toString() ? '?' + q.toString().replace(/%2C/g, ',') : '');
     history.replaceState(null, '', hash === '#' ? location.pathname : hash);
@@ -424,11 +426,15 @@ async function restoreFromHash() {
     if (!h) return;
     const [path, query] = h.split('?');
     const q = new URLSearchParams(query || '');
-    for (const id of (q.get('themes') || '').split(',').filter(Boolean)) {
-        if (config.themes.some(t => t.id === id)) state.themes.add(id);
+    if (q.has('themes')) {
+        state.themes.clear();
+        for (const id of q.get('themes').split(',').filter(Boolean)) {
+            if (config.themes.some(t => t.id === id)) state.themes.add(id);
+        }
     }
     document.querySelectorAll('#theme-buttons button').forEach(b => b.setAttribute('aria-pressed', String(state.themes.has(b.dataset.id))));
-    state.mapTheme = q.get('map') || (state.themes.size ? orderedThemes()[0].id : null);
+    const map = q.get('map');
+    state.mapTheme = map && state.themes.has(map) ? map : (state.themes.size ? orderedThemes()[0].id : null);
     const [jurId, featId] = path.split('/');
     if (jurId) {
         await setJurisdiction(jurId);
@@ -442,8 +448,8 @@ function wireResize() {
     const handle = document.querySelector('.sidebar-resize');
     const sidebar = $('#sidebar');
     try {
-        const w = Number(localStorage.getItem('sidebar-width'));
-        if (w > 300) document.documentElement.style.setProperty('--sidebar-width', w + 'px');
+        const f = Number(localStorage.getItem('sidebar-frac'));
+        if (f > 0.2 && f < 0.85) document.documentElement.style.setProperty('--sidebar-width', (f * 100).toFixed(1) + 'vw');
     } catch { /* storage unavailable */ }
     handle.addEventListener('pointerdown', e => {
         handle.setPointerCapture(e.pointerId);
@@ -454,7 +460,7 @@ function wireResize() {
         };
         const up = () => {
             handle.removeEventListener('pointermove', move);
-            try { localStorage.setItem('sidebar-width', parseInt(getComputedStyle(sidebar).width)); } catch { /* ignore */ }
+            try { localStorage.setItem('sidebar-frac', parseInt(getComputedStyle(sidebar).width) / window.innerWidth); } catch { /* ignore */ }
         };
         handle.addEventListener('pointermove', move);
         handle.addEventListener('pointerup', up, { once: true });
