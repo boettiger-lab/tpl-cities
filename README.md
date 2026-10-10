@@ -25,7 +25,6 @@ data/
   lists/*.json        precomputed pick lists (id, name, bbox)
   statewide.json      precomputed statewide results for every theme query
 scripts/precompute.mjs   regenerates data/ using the same engine
-k8s/                  static nginx deployment (NRP)
 ```
 
 ### SQL template contract
@@ -88,4 +87,4 @@ node scripts/precompute.mjs      # refresh data/ (Node ≥ 18)
 
 ## Deploy
 
-`kubectl apply -f k8s/`. An init container clones this repo into nginx. The MCP endpoint is set in `config/app.json` and can be overridden with a `config.json` that contains `mcp_server_url`.
+Served by GitHub Pages from `main` (repo root): https://boettiger-lab.github.io/tpl-cities/. Every push to `main` redeploys. The site is fully static: there is no LLM, no secrets and no proxy, and the browser calls the public MCP endpoint in `config/app.json` directly. To point it elsewhere, edit `mcp_url` or serve a `config.json` with `mcp_server_url`.
