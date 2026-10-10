@@ -246,3 +246,15 @@ details.method pre {
     #sidebar { flex: 1 1 auto; width: auto; min-width: 0; border-left: none; border-top: 1px solid var(--line); }
     .sidebar-resize { display: none; }
 }
+
+/* ----- point/isochrone variant ---------------------------------------- */
+.step-row { display: flex; flex-wrap: wrap; gap: 10px 22px; }
+.header-links { display: flex; gap: 16px; }
+.origin-marker {
+    width: 16px; height: 16px; border-radius: 50%;
+    background: #111; border: 3px solid #fff; box-shadow: 0 0 0 1.5px #111, 0 2px 6px rgba(0,0,0,.35);
+}
+.band-legend { display: flex; gap: 10px; align-items: center; font-size: 12px; color: var(--text-2); margin-top: 4px; flex-wrap: wrap; }
+.band-legend i { display: inline-block; width: 18px; height: 0; border-top: 2.5px solid; margin-right: 4px; vertical-align: middle; }
+.band-legend i.dash { border-top-style: dashed; border-top-width: 1.5px; }
+.note-card { font-size: 12.5px; color: var(--text-2); }

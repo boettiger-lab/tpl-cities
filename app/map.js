@@ -178,6 +178,103 @@ export class MapView {
     }
 }
 
+/* ------------------------------------------------ isochrones & hexagons */
+
+const BAND_COLORS = ['#0f5132', '#2f8f5b', '#7cc59a', '#b9e3c6'];
+
+Object.assign(MapView.prototype, {
+    /** Generic click on empty map (used by point-based variants). */
+    onMapClick(cb) {
+        this.ready.then(() => this.map.on('click', e => cb(e.lngLat)));
+    },
+
+    async setOrigin(lngLat) {
+        await this.ready;
+        if (!this._origin) {
+            const el = document.createElement('div');
+            el.className = 'origin-marker';
+            this._origin = new maplibregl.Marker({ element: el });
+        }
+        this._origin.setLngLat(lngLat).addTo(this.map);
+    },
+
+    /**
+     * bands: [{ minutes, geometry }] ascending; `selected` minutes is emphasised.
+     * Drawn largest-first so smaller bands sit on top.
+     */
+    async showIsochrones(bands, selected, { fit = true } = {}) {
+        await this.ready;
+        const m = this.map;
+        const fc = {
+            type: 'FeatureCollection',
+            features: bands.map((b, i) => ({ type: 'Feature', geometry: b.geometry, properties: { minutes: b.minutes, rank: i, selected: b.minutes === selected } })).reverse(),
+        };
+        if (m.getSource('iso')) m.getSource('iso').setData(fc);
+        else {
+            m.addSource('iso', { type: 'geojson', data: fc });
+            const color = ['match', ['get', 'rank'], 0, BAND_COLORS[0], 1, BAND_COLORS[1], 2, BAND_COLORS[2], BAND_COLORS[3]];
+            m.addLayer({ id: 'iso-fill', type: 'fill', source: 'iso', paint: { 'fill-color': color, 'fill-opacity': ['case', ['get', 'selected'], 0.10, 0.03] } }, 'ref');
+            m.addLayer({ id: 'iso-line', type: 'line', source: 'iso', paint: {
+                'line-color': color,
+                'line-width': ['case', ['get', 'selected'], 2.6, 1.2],
+                'line-dasharray': ['case', ['get', 'selected'], ['literal', [1, 0]], ['literal', [2, 1.5]]],
+            } });
+        }
+        if (fit) {
+            const b = new maplibregl.LngLatBounds();
+            const walk = c => (typeof c[0] === 'number' ? b.extend(c) : c.forEach(walk));
+            bands.forEach(x => walk(x.geometry.coordinates));
+            const narrow = window.matchMedia('(max-width: 820px)').matches;
+            m.fitBounds(b, { padding: narrow ? 20 : 60, duration: 700, maxZoom: 15 });
+        }
+    },
+
+    clearIsochrones() {
+        if (this.map.getSource('iso')) this.map.getSource('iso').setData({ type: 'FeatureCollection', features: [] });
+    },
+
+    /**
+     * Hexagon choropleth from rows [{ [id_field]: '89283082803ffff', [value_field]: n }].
+     * Cell ids must be H3 *strings* (use h3_h3_to_string in SQL; UBIGINTs lose
+     * precision as JSON numbers).
+     */
+    async setHexChoropleth(spec, rows) {
+        await this.ready;
+        const m = this.map;
+        const values = new Map();
+        for (const r of rows) {
+            const v = Number(r[spec.value_field]);
+            if (Number.isFinite(v) && r[spec.id_field]) values.set(String(r[spec.id_field]), v);
+        }
+        if (!values.size) { this.clearHexChoropleth(); return null; }
+        const breaks = spec.breaks || quantileBreaks([...values.values()], spec.ramp.length);
+        const colorOf = v => spec.ramp[Math.min(spec.ramp.length - 1, breaks.filter(b => v >= b).length)];
+        const fc = { type: 'FeatureCollection', features: [] };
+        for (const [id, v] of values) {
+            const ring = h3.cellToBoundary(id, true);
+            fc.features.push({ type: 'Feature', properties: { id, value: v, color: colorOf(v) }, geometry: { type: 'Polygon', coordinates: [ring] } });
+        }
+        if (m.getSource('hex')) m.getSource('hex').setData(fc);
+        else {
+            m.addSource('hex', { type: 'geojson', data: fc });
+            m.addLayer({ id: 'hex-fill', type: 'fill', source: 'hex', paint: { 'fill-color': ['get', 'color'], 'fill-opacity': 0.72, 'fill-outline-color': 'rgba(255,255,255,0.6)' } }, m.getLayer('iso-fill') ? 'iso-fill' : 'ref');
+            m.on('mousemove', 'hex-fill', e => {
+                const f = e.features[0];
+                if (!f || !this._hexSpec) return;
+                this._popup.setLngLat(e.lngLat).setHTML(`${escapeHtml(this._hexSpec.label)}: <b>${fmt(f.properties.value, this._hexSpec.format)}</b>`).addTo(m);
+            });
+            m.on('mouseleave', 'hex-fill', () => this._popup.remove());
+        }
+        this._hexSpec = spec;
+        return { breaks, ramp: spec.ramp, n: values.size };
+    },
+
+    clearHexChoropleth() {
+        if (this.map.getSource('hex')) this.map.getSource('hex').setData({ type: 'FeatureCollection', features: [] });
+        this._hexSpec = null;
+    },
+});
+
 /** Interior quantile cut points (ramp.length − 1 of them), deduplicated. */
 function quantileBreaks(vals, k) {
     const s = [...vals].sort((a, b) => a - b);

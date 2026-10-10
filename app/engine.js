@@ -9,7 +9,14 @@
  *               counties and districts, rough for small cities).
  *   {{AOI10}}  → a SELECT returning DISTINCT (h0, h8, h10) res-10 cells.
  *               Use for population-weighted or boundary-sensitive measures.
+ *   {{BANDS10}} → (isochrone AOIs only) (band, h0, h8, h10): every cell of the
+ *               largest isochrone, labelled with the smallest travel-time band
+ *               (minutes) that reaches it.
+ *   {{ORIGIN_LAT}}, {{ORIGIN_LON}} → (isochrone AOIs only) the starting point.
  *   {{ID}}   → (jurisdiction AOI templates only) the sanitized feature id.
+ *
+ * Theme ids in app.json may be paths (e.g. "../config/themes/equity") so a
+ * site variant can reuse another variant's themes; the id is the last segment.
  *
  * Shared by the browser app and scripts/precompute.mjs.
  */
@@ -19,14 +26,16 @@ import { McpQueryClient } from './mcp.js';
 export async function loadConfig(base = '.', fetchText = defaultFetchText, { themes: only = null } = {}) {
     const app = JSON.parse(await fetchText(`${base}/config/app.json`));
     const themes = [];
-    for (const id of [app.overview, ...app.themes]) {
+    for (let id of [app.overview, ...app.themes]) {
+        const dir = id.includes('/') ? `${base}/${id}` : `${base}/config/themes/${id}`;
+        const path = id;
+        id = id.split('/').pop();
         if (only && !only.includes(id)) continue;
-        const dir = `${base}/config/themes/${id}`;
         let theme;
         try {
             theme = JSON.parse(await fetchText(`${dir}/theme.json`));
         } catch (err) {
-            if (id === app.overview) throw err;
+            if (path === app.overview) throw err;
             console.warn(`Skipping theme "${id}": ${err.message}`);
             continue;
         }
@@ -98,7 +107,10 @@ export class Engine {
     }
 
     sqlFor(theme, queryName, aoi) {
-        return expand(theme.sql[queryName], { AOI: aoi.sql, AOI10: aoi.sql10 });
+        const tokens = { AOI: aoi.sql, AOI10: aoi.sql10 };
+        if (aoi.bands10) tokens.BANDS10 = aoi.bands10;
+        if (aoi.origin) { tokens.ORIGIN_LAT = String(+aoi.origin.lat); tokens.ORIGIN_LON = String(+aoi.origin.lon); }
+        return expand(theme.sql[queryName], tokens);
     }
 
     run(theme, queryName, aoi) {

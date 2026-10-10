@@ -1,0 +1,47 @@
+{
+    "label": "Biodiversity",
+    "color": "#1f7a3a",
+    "blurb": "Species people have recorded within reach (GBIF, including iNaturalist and eBird).",
+    "queries": {
+        "species": { "file": "species.sql", "statewide": false },
+        "species_bands": { "file": "species_bands.sql", "statewide": false },
+        "map": { "file": "map.sql", "statewide": false }
+    },
+    "headlines": [
+        { "query": "species", "row": { "grp": "All" }, "field": "n_species", "label": "Species recorded", "format": "int", "compare": false,
+          "detail_field": "n_records", "detail_format": "compact", "detail_template": "from {} GBIF records" },
+        { "query": "species", "row": { "grp": "Birds" }, "field": "n_species", "label": "Bird species", "format": "int", "compare": false },
+        { "query": "species", "row": { "grp": "Plants" }, "field": "n_species", "label": "Plant species", "format": "int", "compare": false },
+        { "query": "species", "row": { "grp": "Insects" }, "field": "n_species", "label": "Insect species", "format": "int", "compare": false }
+    ],
+    "charts": [
+        {
+            "query": "species",
+            "title": "Species by group",
+            "subtitle": "Distinct species with at least one record inside the reachable area",
+            "category": "grp",
+            "exclude": { "grp": "All" },
+            "format": "int",
+            "series": [ { "field": "n_species", "label": "Species", "color": "#1f7a3a" } ]
+        },
+        {
+            "query": "species_bands",
+            "title": "Species within reach",
+            "subtitle": "Distinct species recorded within each travel time",
+            "category": "band",
+            "format": "int",
+            "series": [ { "field": "n_species", "label": "Species", "color": "#1f7a3a" } ]
+        }
+    ],
+    "map": {
+        "type": "hex",
+        "query": "map",
+        "id_field": "h9",
+        "value_field": "value",
+        "label": "Species recorded per hexagon",
+        "format": "int",
+        "ramp": ["#e8f3e4", "#bfe0b5", "#86c47f", "#459a4c", "#1a6332"],
+        "note": "~0.1 km² hexagons · quantile classes · reflects where people look as much as what lives there"
+    },
+    "method": "GBIF occurrence records (June 2026 snapshot, all years), keeping records without coordinate-error flags and with coordinate uncertainty ≤ 1 km or unreported. Species are distinct species names; groups follow GBIF taxonomy (plants = kingdom Plantae; fungi includes lichens). Counts measure recorded biodiversity, which tracks observer effort — eBird hotspots and popular parks have many more records — as much as what actually lives there."
+}
