@@ -3,19 +3,22 @@
  * Precompute the slow, shared results so the app opens fast:
  *   data/lists/<jurisdiction>.json   pick lists (id, name, bbox)
  *   data/statewide.json              every theme query run over all of California
+ *   data/peers/<theme>/<jur>.json    a theme's "peers" query over every feature
+ *                                    of each jurisdiction type (for ranks)
  *
  * Uses the same engine + MCP client as the browser.
  *
  *   node scripts/precompute.mjs                 # everything
  *   node scripts/precompute.mjs lists           # pick lists only
  *   node scripts/precompute.mjs statewide [theme ...]
+ *   node scripts/precompute.mjs peers [theme ...]
  *   node scripts/precompute.mjs --site access statewide   # a site variant in ./access
  */
 
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadConfig, Engine, statewideAoi } from '../app/engine.js';
+import { loadConfig, Engine, statewideAoi, expand } from '../app/engine.js';
 
 const argv = process.argv.slice(2);
 const siteAt = argv.indexOf('--site');
@@ -57,4 +60,24 @@ if (what === 'all' || what === 'statewide') {
     }
     out.generated = new Date().toISOString();
     await writeFile(file, JSON.stringify(out, null, 1));
+}
+
+if (what === 'all' || what === 'peers') {
+    for (const theme of [config.overview, ...config.themes]) {
+        if (!theme.peers || (only.length && !only.includes(theme.id))) continue;
+        const dir = config.app.themes.concat(config.app.overview).find(t => t.split('/').pop() === theme.id);
+        const sql = await fetchText(`${root}/${dir.includes('/') ? dir : `config/themes/${dir}`}/${theme.peers.file}`);
+        await mkdir(`${root}/data/peers/${theme.id}`, { recursive: true });
+        for (const jur of config.app.jurisdictions || []) {
+            if (!jur.cells10) continue;
+            const t0 = Date.now();
+            try {
+                const rows = await engine.client.query(expand(sql, { CELLS10: jur.cells10 }));
+                await writeFile(`${root}/data/peers/${theme.id}/${jur.id}.json`, JSON.stringify(rows));
+                console.log(`peers ${theme.id}.${jur.id}: ${rows.length} rows (${((Date.now() - t0) / 1000).toFixed(1)}s)`);
+            } catch (err) {
+                console.error(`peers ${theme.id}.${jur.id}: FAILED — ${err.message.split('\n')[0]}`);
+            }
+        }
+    }
 }

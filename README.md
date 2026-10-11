@@ -1,6 +1,6 @@
 # California Community Profiles
 
-A map + dashboard that profiles any California **city, county, congressional district, or State Senate / Assembly district** across a configurable set of dimensions: currently **biodiversity**, **health & equity**, and **climate risk**. Each profile also has an "at a glance" summary.
+A map + dashboard that profiles any California **city, county, congressional district, or State Senate / Assembly district** across a configurable set of dimensions: currently **park access**, **health & equity**, **climate risk**, and **biodiversity**. Each profile also has an "at a glance" summary.
 
 There is **no LLM** in the loop. Every number, chart and map layer comes from a fixed, reviewable SQL template. The browser sends the SQL to the public [duckdb-geo MCP server](https://duckdb-mcp.nrp-nautilus.io/mcp), which queries cloud-native H3-indexed GeoParquet. The "Method & SQL" link under each panel shows the exact SQL that ran for the selected place.
 
@@ -24,6 +24,7 @@ config/
 data/
   lists/*.json        precomputed pick lists (id, name, bbox)
   statewide.json      precomputed statewide results for every theme query
+  peers/<theme>/<jur>.json  precomputed per-jurisdiction scores (for ranks)
 scripts/precompute.mjs   regenerates data/ using the same engine
 ```
 
@@ -61,8 +62,10 @@ The same template runs for any area. The statewide comparison is simply the temp
                    "detail_field": "col", "detail_template": "{} …", "compare": true } ],
   "charts": [ { "query": "name", "title": "…", "category": "col", "series": [ {"field": "col", "label": "…", "color": "#hex"} ],
                 "stacked": true, "format": "…", "compare": {"field": "col"},   // statewide tick per row
+                "label_width": 220,                                  // wider category labels (px)
                 "statewide_row": true, "exclude": {"col": "value"}, "sort": "desc", "limit": 10,
                 "wide": true } ],                                      // span both columns in a wide panel
+  "peers": { "file": "peers.sql" },                        // optional: see "Ranks" below
   "map": { "query": "map", "id_field": "GEOID", "value_field": "value", "label": "…", "format": "…",
            "ramp": ["#…", "…"], "breaks": [ … ] }           // breaks optional (default: quantiles)
 }
@@ -70,12 +73,25 @@ The same template runs for any area. The statewide comparison is simply the temp
 
 The map query returns `(GEOID, value)` for the 2024 census tracts in the area.
 
+A headline can carry `"rank": {"field": "score"}`, which adds "#9 of 58 California counties" to the tile. Ranks come from the theme's `peers.sql`, run once per jurisdiction type by `node scripts/precompute.mjs peers <theme>`. Its `{{CELLS10}}` token expands to the jurisdiction's `cells10` query, `(id, h0, h10)` for every feature, so one query scores them all; it must return `id` plus the ranked field, computed the same way as the live query.
+
+### Park access score
+
+The **Park access** theme (`config/themes/access/`) uses TPL ParkServe's 10-minute-walk service areas. Block-group residents are spread evenly over each block group's res-10 cells and counted as served where a cell is inside any park's walk zone. This matches TPL's published city figures within about 1.5 points. The 0–100 score is the average of **reach** and **room**, multiplied by a **fairness** factor:
+
+- **Reach:** % of residents within a 10-minute walk of any park.
+- **Room:** % of residents within a 10-minute walk of a park of 10 acres or more.
+- **Fairness:** walk access in lower-income block groups (median household income under $80k) divided by access in the rest, capped at 1. Places where lower-income areas are less served lose points proportionally; places with no access score near 0.
+
+The theme also maps access by tract, lists the tracts with the most unserved residents, and breaks unserved residents down by TPL's park-need priority.
+
 ### Adding a jurisdiction type
 
 Add an entry to `jurisdictions` in `config/app.json`. It needs:
 - `aoi` and `aoi10` templates, which use `{{ID}}`;
 - a `list` query returning `id, name, xmin, ymin, xmax, ymax`;
-- `boundary` PMTiles settings.
+- `boundary` PMTiles settings;
+- optionally, `cells10` (every feature's `id, h0, h10`) and `peer_label`, for ranks.
 
 Then run `node scripts/precompute.mjs lists`. Drawn or uploaded polygons are planned to plug in the same way, with an AOI built from an H3 polyfill.
 
