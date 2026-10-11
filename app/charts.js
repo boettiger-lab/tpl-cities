@@ -51,7 +51,7 @@ export function renderBarChart(container, spec, rows, stateRows) {
     }
 
     // draw at the container's real pixel width so text stays at its CSS size
-    const W = Math.max(300, Math.round(container.clientWidth || 480)), labelW = Math.min(150, Math.round(W * 0.34)), valueW = 64, rowH = spec.stacked || series.length === 1 ? 24 : 12 * series.length + 12;
+    const W = Math.max(300, Math.round(container.clientWidth || 480)), labelW = Math.min(spec.label_width || 150, Math.round(W * (spec.label_width ? 0.45 : 0.34))), valueW = 64, rowH = spec.stacked || series.length === 1 ? 24 : 12 * series.length + 12;
     const barArea = W - labelW - valueW;
     const maxChars = Math.max(8, Math.floor((labelW - 10) / 6.4));   // ~6.4px per char at 11.5px
     const top = 4, axisH = 18;

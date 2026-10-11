@@ -4,7 +4,7 @@
     "view": { "center": [-119.5, 37.3], "zoom": 5.4 },
 
     "overview": "overview",
-    "themes": ["equity", "climate", "biodiversity"],
+    "themes": ["access", "equity", "climate", "biodiversity"],
 
     "statewide": {
         "aoi": "SELECT DISTINCT h0, h8 FROM read_parquet('s3://public-ca30x30/ecoregion/hex-res8/h0=*/data_0.parquet')",
@@ -21,10 +21,12 @@
         {
             "id": "city",
             "label": "Cities",
+            "peer_label": "California cities",
             "singular": "City",
             "description": "Incorporated cities and towns (2024 Census places)",
             "aoi": "SELECT DISTINCT h0, h8 FROM read_parquet('s3://public-census/census-2024/place/hex/h0=*/data_0.parquet') WHERE STATEFP = '06' AND GEOID = '{{ID}}'",
             "aoi10": "SELECT DISTINCT h0, h8, h10 FROM read_parquet('s3://public-census/census-2024/place/hex/h0=*/data_0.parquet') WHERE STATEFP = '06' AND GEOID = '{{ID}}'",
+            "cells10": "SELECT DISTINCT GEOID AS id, h0, h10 FROM read_parquet('s3://public-census/census-2024/place/hex/h0=*/data_0.parquet') WHERE STATEFP = '06' AND CLASSFP LIKE 'C%'",
             "list": "SELECT GEOID AS id, NAME AS name, CASE WHEN LSAD = '43' THEN 'town' ELSE 'city' END AS detail, ST_XMin(geom) AS xmin, ST_YMin(geom) AS ymin, ST_XMax(geom) AS xmax, ST_YMax(geom) AS ymax FROM read_parquet('s3://public-census/census-2024/place.parquet') WHERE STATEFP = '06' AND CLASSFP LIKE 'C%' ORDER BY NAME",
             "boundary": {
                 "url": "https://s3-west.nrp-nautilus.io/public-census/census-2024/place.pmtiles",
@@ -37,10 +39,12 @@
         {
             "id": "county",
             "label": "Counties",
+            "peer_label": "California counties",
             "singular": "County",
             "description": "California's 58 counties (2024 Census)",
             "aoi": "SELECT DISTINCT h0, h8 FROM read_parquet('s3://public-census/census-2024/county/hex/h0=*/data_0.parquet') WHERE STATEFP = '06' AND GEOID = '{{ID}}'",
             "aoi10": "SELECT DISTINCT h0, h8, h10 FROM read_parquet('s3://public-census/census-2024/tract/hex/h0=*/data_0.parquet') WHERE STATEFP = '06' AND GEOID LIKE '{{ID}}%'",
+            "cells10": "SELECT DISTINCT left(GEOID, 5) AS id, h0, h10 FROM read_parquet('s3://public-census/census-2024/tract/hex/h0=*/data_0.parquet') WHERE STATEFP = '06'",
             "list": "SELECT GEOID AS id, NAMELSAD AS name, ST_XMin(geom) AS xmin, ST_YMin(geom) AS ymin, ST_XMax(geom) AS xmax, ST_YMax(geom) AS ymax FROM read_parquet('s3://public-census/census-2024/county.parquet') WHERE STATEFP = '06' ORDER BY NAME",
             "boundary": {
                 "url": "https://s3-west.nrp-nautilus.io/public-census/census-2024/county.pmtiles",
@@ -53,10 +57,12 @@
         {
             "id": "cd",
             "label": "Congressional",
+            "peer_label": "California congressional districts",
             "singular": "Congressional district",
             "description": "U.S. House districts (119th Congress)",
             "aoi": "SELECT DISTINCT h0, h8 FROM read_parquet('s3://public-census/census-2024/cd/hex/h0=*/data_0.parquet') WHERE STATEFP = '06' AND GEOID = '{{ID}}'",
             "aoi10": "SELECT DISTINCT h0, h8, h10 FROM read_parquet('s3://public-census/census-2024/cd/hex/h0=*/data_0.parquet') WHERE STATEFP = '06' AND GEOID = '{{ID}}'",
+            "cells10": "SELECT DISTINCT GEOID AS id, h0, h10 FROM read_parquet('s3://public-census/census-2024/cd/hex/h0=*/data_0.parquet') WHERE STATEFP = '06'",
             "list": "SELECT GEOID AS id, NAMELSAD AS name, ST_XMin(geom) AS xmin, ST_YMin(geom) AS ymin, ST_XMax(geom) AS xmax, ST_YMax(geom) AS ymax FROM read_parquet('s3://public-census/census-2024/cd.parquet') WHERE STATEFP = '06' ORDER BY GEOID",
             "boundary": {
                 "url": "https://s3-west.nrp-nautilus.io/public-census/census-2024/cd.pmtiles",
@@ -69,10 +75,12 @@
         {
             "id": "sldu",
             "label": "State Senate",
+            "peer_label": "State Senate districts",
             "singular": "Senate district",
             "description": "California State Senate districts (upper chamber)",
             "aoi": "SELECT DISTINCT h0, h8 FROM read_parquet('s3://public-census/census-2025/sldu/hex/h0=*/data_0.parquet') WHERE STATEFP = '06' AND GEOID = '{{ID}}'",
             "aoi10": "SELECT DISTINCT h0, h8, h10 FROM read_parquet('s3://public-census/census-2025/sldu/hex/h0=*/data_0.parquet') WHERE STATEFP = '06' AND GEOID = '{{ID}}'",
+            "cells10": "SELECT DISTINCT GEOID AS id, h0, h10 FROM read_parquet('s3://public-census/census-2025/sldu/hex/h0=*/data_0.parquet') WHERE STATEFP = '06'",
             "list": "SELECT GEOID AS id, NAMELSAD AS name, ST_XMin(geom) AS xmin, ST_YMin(geom) AS ymin, ST_XMax(geom) AS xmax, ST_YMax(geom) AS ymax FROM read_parquet('s3://public-census/census-2025/sldu.parquet') WHERE STATEFP = '06' ORDER BY GEOID",
             "boundary": {
                 "url": "https://s3-west.nrp-nautilus.io/public-census/census-2025/sldu.pmtiles",
@@ -85,10 +93,12 @@
         {
             "id": "sldl",
             "label": "State Assembly",
+            "peer_label": "State Assembly districts",
             "singular": "Assembly district",
             "description": "California State Assembly districts (lower chamber)",
             "aoi": "SELECT DISTINCT h0, h8 FROM read_parquet('s3://public-census/census-2025/sldl/hex/h0=*/data_0.parquet') WHERE STATEFP = '06' AND GEOID = '{{ID}}'",
             "aoi10": "SELECT DISTINCT h0, h8, h10 FROM read_parquet('s3://public-census/census-2025/sldl/hex/h0=*/data_0.parquet') WHERE STATEFP = '06' AND GEOID = '{{ID}}'",
+            "cells10": "SELECT DISTINCT GEOID AS id, h0, h10 FROM read_parquet('s3://public-census/census-2025/sldl/hex/h0=*/data_0.parquet') WHERE STATEFP = '06'",
             "list": "SELECT GEOID AS id, NAMELSAD AS name, ST_XMin(geom) AS xmin, ST_YMin(geom) AS ymin, ST_XMax(geom) AS xmax, ST_YMax(geom) AS ymax FROM read_parquet('s3://public-census/census-2025/sldl.parquet') WHERE STATEFP = '06' ORDER BY GEOID",
             "boundary": {
                 "url": "https://s3-west.nrp-nautilus.io/public-census/census-2025/sldl.pmtiles",

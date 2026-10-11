@@ -46,6 +46,7 @@ export function renderThemeCard(engine, theme, aoi, { overview = false, isCurren
                     ${h.compare !== false && sv !== undefined && sv !== null ? `<div class="tile-compare">${escapeHtml(compareLabel)}: ${fmt(sv, h.compare_format || h.format)}</div>` : ''}
                     ${h.detail_field && row?.[h.detail_field] != null ? `<div class="tile-note">${escapeHtml(h.detail_template.replace('{}', fmt(row[h.detail_field], h.detail_format)))}</div>` : ''}
                     ${h.note ? `<div class="tile-note">${escapeHtml(h.note)}</div>` : ''}`;
+                if (h.rank) addRank(engine, theme, h, aoi, t, isCurrent);
             })
             .catch(err => failTile(t, h, err, isCurrent));
     }
@@ -93,7 +94,23 @@ export function renderThemeCard(engine, theme, aoi, { overview = false, isCurren
     return card;
 }
 
-function failTile(t, h, err, token) {
+/** "#9 of 58 California counties" from the precomputed peer table. */
+async function addRank(engine, theme, h, aoi, tile, isCurrent) {
+    const jur = engine.config.app.jurisdictions?.find(j => j.id === aoi.kind);
+    if (!jur || !aoi.id) return;
+    const peers = await engine.peers(theme.id, jur.id);
+    const field = h.rank.field || h.field;
+    const vals = (peers || []).filter(r => r[field] != null);
+    const me = vals.find(r => r.id === aoi.id);
+    if (!me || !isCurrent()) return;
+    const rank = 1 + vals.filter(r => r[field] > me[field]).length;
+    const el = document.createElement('div');
+    el.className = 'tile-rank';
+    el.innerHTML = `<b>#${rank}</b> of ${vals.length} ${escapeHtml(jur.peer_label || jur.label.toLowerCase())}`;
+    tile.querySelector('.tile-value').after(el);
+}
+
+function failTile(t, h, err, isCurrent) {
     if (!isCurrent()) return;
     t.classList.remove('skeleton');
     t.innerHTML = `<div class="tile-label">${escapeHtml(h.label)}</div><div class="tile-value">—</div><div class="err" title="${escapeHtml(err.message)}">Query failed</div>`;

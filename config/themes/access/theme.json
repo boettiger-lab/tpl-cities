@@ -1,0 +1,155 @@
+{
+    "label": "Park access",
+    "color": "#1b7f6b",
+    "blurb": "Who can walk to a park in 10 minutes, using the Trust for Public Land's ParkServe walk zones, and which neighborhoods are left out.",
+    "queries": {
+        "access": {
+            "file": "access.sql"
+        },
+        "need": {
+            "file": "need.sql"
+        },
+        "tracts": {
+            "file": "tracts.sql",
+            "statewide": false
+        }
+    },
+    "peers": {
+        "file": "peers.sql"
+    },
+    "headlines": [
+        {
+            "query": "access",
+            "row": {
+                "grp": "All residents"
+            },
+            "field": "score",
+            "label": "Park access score",
+            "format": "int",
+            "rank": {
+                "field": "score"
+            },
+            "note": "Walk + big-park access, adjusted for income fairness"
+        },
+        {
+            "query": "access",
+            "row": {
+                "grp": "All residents"
+            },
+            "field": "frac_served",
+            "label": "Residents within a 10-minute walk of a park",
+            "format": "pct",
+            "detail_field": "pop_unserved",
+            "detail_format": "compact",
+            "detail_template": "{} people farther away"
+        },
+        {
+            "query": "access",
+            "row": {
+                "grp": "All residents"
+            },
+            "field": "frac_served_big",
+            "label": "… of a park of 10 acres or more",
+            "format": "pct"
+        },
+        {
+            "query": "access",
+            "row": {
+                "grp": "All residents"
+            },
+            "field": "frac_low",
+            "label": "Walk access in lower-income neighborhoods",
+            "format": "pct",
+            "detail_field": "frac_high",
+            "detail_format": "pct",
+            "detail_template": "{} in higher-income ones"
+        }
+    ],
+    "charts": [
+        {
+            "query": "access",
+            "title": "Walk access by neighborhood income",
+            "subtitle": "Share of residents within a 10-minute walk, by block-group median household income",
+            "category": "grp",
+            "exclude": {
+                "grp": "All residents"
+            },
+            "format": "pct",
+            "domain_max": 1,
+            "series": [
+                {
+                    "field": "frac_served",
+                    "label": "Any park",
+                    "color": "#1b7f6b"
+                },
+                {
+                    "field": "frac_served_big",
+                    "label": "Park of 10+ acres",
+                    "color": "#8fd1c0"
+                }
+            ],
+            "compare": {
+                "field": "frac_served",
+                "label": "California, any park"
+            }
+        },
+        {
+            "query": "need",
+            "title": "How urgent is the need?",
+            "subtitle": "Residents beyond a 10-minute walk, by TPL's park-need priority for their neighborhood",
+            "category": "priority",
+            "format": "pct",
+            "series": [
+                {
+                    "field": "frac",
+                    "label": "Share of residents without walk access",
+                    "color": "#1b7f6b"
+                }
+            ],
+            "compare": {
+                "field": "frac",
+                "label": "California"
+            }
+        },
+        {
+            "query": "tracts",
+            "title": "Where the gaps are",
+            "subtitle": "Census tracts with the most residents beyond a 10-minute walk of a park",
+            "category": "tract",
+            "format": "compact",
+            "sort": "desc",
+            "limit": 8,
+            "series": [
+                {
+                    "field": "pop_unserved",
+                    "label": "Residents beyond a 10-minute walk",
+                    "color": "#1b7f6b"
+                }
+            ],
+            "wide": true,
+            "label_width": 220
+        }
+    ],
+    "map": {
+        "query": "tracts",
+        "id_field": "GEOID",
+        "value_field": "value",
+        "label": "Residents within a 10-minute walk of a park",
+        "format": "pct100",
+        "breaks": [
+            25,
+            50,
+            75,
+            90
+        ],
+        "ramp": [
+            "#e6f4f0",
+            "#b3dfd2",
+            "#6fbfa9",
+            "#2f9a80",
+            "#0e5e4d"
+        ],
+        "note": "Census tracts · % of residents (darker = better access)"
+    },
+    "method": "Walk zones are the Trust for Public Land's ParkServe 2025 10-minute-walk service areas (about ½ mile along the street network from each publicly accessible park). Residents come from ACS 2020–24 block groups, spread evenly over each block group's area, and are counted as served where they fall inside any walk zone; this reproduces TPL's published city figures within about 1.5 points (San Francisco 98.8% vs 99.9%, Oakland 87.2% vs 87.9%, Lancaster 19.1% vs 18.7%). The score is the average of two percentages, residents within a 10-minute walk of any park and residents within a 10-minute walk of a park of 10 acres or more, multiplied by a fairness factor: the walk-access rate in lower-income block groups (median household income under $80,000, about 80% of the state median) divided by the rate in the rest, capped at 1 when lower-income areas are at least as well served. Ranks compare the score with every other jurisdiction of the same type. Park-need priority is TPL's ranking of unserved neighborhoods within each city (very high, high, moderate); because it is relative within a city, it is not comparable across cities. ParkServe maps parks in cities and towns, so rural and unincorporated residents may be undercounted as served, and parks missing from ParkServe show as gaps."
+}

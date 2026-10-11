@@ -135,6 +135,21 @@ export class Engine {
         return this.run(theme, queryName, statewideAoi(this.config.app));
     }
 
+    /**
+     * Precomputed peer table for a theme and jurisdiction type
+     * (data/peers/<theme>/<jur>.json, written by `precompute.mjs peers`);
+     * null when absent.
+     */
+    peers(themeId, jurId, base = '.') {
+        const key = `peers|${themeId}|${jurId}`;
+        if (!this.cache.has(key)) {
+            this.cache.set(key, fetch(`${base}/data/peers/${themeId}/${jurId}.json`, { cache: 'no-cache' })
+                .then(r => (r.ok ? r.json() : null))
+                .catch(() => null));
+        }
+        return this.cache.get(key);
+    }
+
     /** Pick list for a jurisdiction type: precomputed file first, then live. */
     async listFeatures(jur, base = '.') {
         const key = `list|${jur.id}`;

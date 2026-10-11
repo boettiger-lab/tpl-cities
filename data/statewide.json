@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09T23:38:24.001Z",
+ "generated": "2026-10-11T16:38:06.940Z",
  "results": {
   "overview": {
    "protection": [
@@ -415,6 +415,111 @@
      "scenario": "Very high (SSP5-8.5)",
      "mid_century_c": 2.6740962489261437,
      "end_century_c": 4.6732527784111415
+    }
+   ]
+  },
+  "access": {
+   "access": [
+    {
+     "grp": "All residents",
+     "ord": 0,
+     "pop": 39196322.58335103,
+     "pop_served": 23306276.880581155,
+     "pop_unserved": 15890045.702769876,
+     "frac_served": 0.5946036603566656,
+     "frac_served_big": 0.24083237174587724,
+     "frac_low": 0.5839872772188196,
+     "frac_high": 0.5993253323759812,
+     "reach": 59.46036603566655,
+     "room": 24.083237174587723,
+     "fairness": 97.44077976875181,
+     "score": 40.70276920749187
+    },
+    {
+     "grp": "Under $50k",
+     "ord": 1,
+     "pop": 2850272.5883345176,
+     "pop_served": 1769136.5636974245,
+     "pop_unserved": 1081136.024637093,
+     "frac_served": 0.6206903055301013,
+     "frac_served_big": 0.20945993453234574,
+     "frac_low": null,
+     "frac_high": null,
+     "reach": null,
+     "room": null,
+     "fairness": null,
+     "score": null
+    },
+    {
+     "grp": "$50k–80k",
+     "ord": 2,
+     "pop": 8665358.075298855,
+     "pop_served": 4955845.233015374,
+     "pop_unserved": 3709512.842283481,
+     "frac_served": 0.571914650260365,
+     "frac_served_big": 0.2059435189965971,
+     "frac_low": null,
+     "frac_high": null,
+     "reach": null,
+     "room": null,
+     "fairness": null,
+     "score": null
+    },
+    {
+     "grp": "$80k–125k",
+     "ord": 3,
+     "pop": 13212501.473421607,
+     "pop_served": 7560589.477984551,
+     "pop_unserved": 5651911.995437056,
+     "frac_served": 0.5722299818239192,
+     "frac_served_big": 0.22998686844671115,
+     "frac_low": null,
+     "frac_high": null,
+     "reach": null,
+     "room": null,
+     "fairness": null,
+     "score": null
+    },
+    {
+     "grp": "$125k+",
+     "ord": 4,
+     "pop": 12650450.786656007,
+     "pop_served": 7939732.981510602,
+     "pop_unserved": 4710717.805145405,
+     "frac_served": 0.6276245104155197,
+     "frac_served_big": 0.286021239101478,
+     "frac_low": null,
+     "frac_high": null,
+     "reach": null,
+     "room": null,
+     "fairness": null,
+     "score": null
+    }
+   ],
+   "need": [
+    {
+     "priority": "Very high",
+     "rank": 3,
+     "pop": 3295281.9621120933,
+     "frac": 0.207380269619847
+    },
+    {
+     "priority": "High",
+     "rank": 2,
+     "pop": 3744156.6525181546,
+     "frac": 0.2356290675655834
+    },
+    {
+     "priority": "Moderate",
+     "rank": 1,
+     "pop": 3624082.5197499143,
+     "frac": 0.22807250448110403
+    },
+    {
+     "priority": "No TPL rank",
+     "rank": 0,
+     "pop": 5226524.568389643,
+     "frac": 0.3289181583334656
     }
    ]
   }
