@@ -1,0 +1,377 @@
+{
+ "generated": "2026-10-12T15:37:54.571Z",
+ "catalog": "https://s3-west.nrp-nautilus.io/public-data/stac/catalog.json",
+ "datasets": [
+  {
+   "id": "ca30x30-ecoregion",
+   "prefixes": [
+    "s3://public-ca30x30/ecoregion/hex-res8",
+    "s3://public-ca30x30/ecoregion/hex"
+   ],
+   "stac": {
+    "id": "ca30x30-ecoregion",
+    "title": "California 30x30 Ecoregions (CNRA / ACE Bailey-derived, 2024)",
+    "license": "CC-BY-4.0",
+    "providers": [
+     {
+      "name": "California Department of Fish and Wildlife (CDFW) / California Natural Resources Agency (CNRA)",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://wildlife.ca.gov/Data/Analysis/ACE"
+     },
+     {
+      "name": "USDA Forest Service (Bailey / ECOMAP ecological sections)",
+      "roles": [
+       "producer"
+      ],
+      "url": "https://www.fs.usda.gov/"
+     },
+     {
+      "name": "Boettiger Lab",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://github.com/boettiger-lab"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-ca30x30/ecoregion/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://data.cnra.ca.gov/dataset/areas-of-conservation-emphasis-ace",
+      "type": "text/html",
+      "title": "CNRA Open Data terms (Creative Commons Attribution)"
+     }
+    ]
+   }
+  },
+  {
+   "id": "census-2024-tract",
+   "prefixes": [
+    "https://s3-west.nrp-nautilus.io/public-census/census-2024/tract.pmtiles"
+   ],
+   "stac": {
+    "id": "census-2024-tract",
+    "title": "US Census 2024 Census Tract Boundaries with H3 Indexing",
+    "license": "public-domain",
+    "providers": [
+     {
+      "name": "US Census Bureau",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html"
+     },
+     {
+      "name": "Boettiger Lab",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://github.com/boettiger-lab"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-census/census-2024/tract/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "about",
+      "href": "https://www.census.gov/programs-surveys/geography/about/glossary.html#par_textimage_13"
+     },
+     {
+      "rel": "license",
+      "href": "https://www.usa.gov/government-works",
+      "title": "U.S. Government Works"
+     }
+    ]
+   }
+  },
+  {
+   "id": "parkserve-2025-parks",
+   "prefixes": [
+    "s3://public-tpl/parkserve-2025/parks/hex"
+   ],
+   "stac": {
+    "id": "parkserve-2025-parks",
+    "title": "ParkServe Parks with Public Access (nationwide)",
+    "license": "proprietary",
+    "providers": [
+     {
+      "name": "Trust for Public Land (TPL)",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://www.tpl.org/parkserve",
+      "description": "ParkServe® database. Suggested citation: Trust for Public Land. (2025). ParkServe [Database]. tpl.org/parkserve."
+     },
+     {
+      "name": "Center for Applied Research and Engagement Systems, University of Missouri Extension",
+      "roles": [
+       "processor"
+      ],
+      "url": "https://engagementnetwork.org/"
+     },
+     {
+      "name": "Boettiger Lab, UC Berkeley",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://carlboettiger.info/"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-tpl/parkserve-2025/parks/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://www.tpl.org/legal-disclosure-terms-use",
+      "type": "text/html",
+      "title": "TPL Terms of Use"
+     }
+    ]
+   }
+  },
+  {
+   "id": "landfire-2024-cc",
+   "prefixes": [
+    "s3://public-landfire/landfire-2024-cc/hex"
+   ],
+   "stac": {
+    "id": "landfire-2024-cc",
+    "title": "LANDFIRE 2024 Forest Canopy Cover (CONUS, 30 m)",
+    "license": "public-domain",
+    "providers": [
+     {
+      "name": "LANDFIRE (USGS / USDA Forest Service)",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://landfire.gov/data/FullExtentDownloads"
+     },
+     {
+      "name": "Carl Boettiger Lab, UC Berkeley",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://s3-west.nrp-nautilus.io/public-landfire/"
+     }
+    ],
+    "sci:citation": "LANDFIRE LF 2024 (2.5.0), Forest Canopy Cover, conterminous United States. US Geological Survey and US Department of Agriculture Forest Service. Accessed 2026-09-07.",
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-landfire/landfire-2024-cc/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://landfire.gov/data/FullExtentDownloads",
+      "type": "text/html",
+      "title": "LANDFIRE data access and use"
+     },
+     {
+      "rel": "about",
+      "href": "https://landfire.gov/data/FullExtentDownloads",
+      "type": "text/html",
+      "title": "LANDFIRE Full Extent Downloads"
+     }
+    ]
+   }
+  },
+  {
+   "id": "acs-2020-2024-blockgroup",
+   "prefixes": [
+    "s3://public-census/acs-2020-2024/blockgroup/hex"
+   ],
+   "stac": {
+    "id": "acs-2020-2024-blockgroup",
+    "title": "ACS 2020–2024 Block-Group Demographics (with H3 Indexing)",
+    "license": "public-domain",
+    "providers": [
+     {
+      "name": "US Census Bureau",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://www.census.gov/programs-surveys/acs"
+     },
+     {
+      "name": "Boettiger Lab",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://github.com/boettiger-lab"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-census/acs-2020-2024/blockgroup/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://www.census.gov/data/developers/about/terms-of-service.html",
+      "type": "text/html"
+     }
+    ]
+   }
+  },
+  {
+   "id": "gbif-derived",
+   "prefixes": [
+    "s3://public-gbif/2026-06/hex"
+   ],
+   "stac": {
+    "id": "gbif-derived",
+    "title": "GBIF Occurrence Data & Derived Products",
+    "license": "various",
+    "providers": [
+     {
+      "name": "Global Biodiversity Information Facility",
+      "roles": [
+       "producer"
+      ],
+      "url": "https://www.gbif.org/"
+     },
+     {
+      "name": "Boettiger Lab",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://github.com/boettiger-lab"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-gbif/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://www.gbif.org/terms",
+      "type": "text/html"
+     }
+    ]
+   }
+  },
+  {
+   "id": "calenviroscreen-5-0",
+   "prefixes": [
+    "s3://public-calenviroscreen/calenviroscreen-5-0/ces5/hex"
+   ],
+   "stac": {
+    "id": "calenviroscreen-5-0",
+    "title": "CalEnviroScreen 5.0 (Draft)",
+    "license": "public-domain",
+    "providers": [
+     {
+      "name": "California Office of Environmental Health Hazard Assessment (OEHHA)",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://oehha.ca.gov/calenviroscreen"
+     },
+     {
+      "name": "Boettiger Lab",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://github.com/boettiger-lab"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-calenviroscreen/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://oehha.ca.gov/calenviroscreen",
+      "type": "text/html"
+     }
+    ]
+   }
+  },
+  {
+   "id": "ca-dac-eda-2023",
+   "prefixes": [
+    "s3://public-ca-dac/dac-2023/blockgroup/hex"
+   ],
+   "stac": {
+    "id": "ca-dac-eda-2023",
+    "title": "California Disadvantaged Communities (DAC) and Economically Distressed Areas (EDA), 2023",
+    "license": "CC-BY-4.0",
+    "providers": [
+     {
+      "name": "California Department of Water Resources",
+      "description": "Authoritative producer of DAC/EDA designations under California Water Code",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://water.ca.gov/"
+     },
+     {
+      "name": "California Natural Resources Agency",
+      "description": "Open Data hub publishing the underlying GIS layers",
+      "roles": [
+       "host"
+      ],
+      "url": "https://data.cnra.ca.gov/"
+     },
+     {
+      "name": "Boettiger Lab",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://github.com/boettiger-lab"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-ca-dac/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "about",
+      "href": "https://gis.water.ca.gov/app/dacs/",
+      "title": "DWR DAC and EDA Mapping Tool"
+     },
+     {
+      "rel": "license",
+      "href": "https://creativecommons.org/licenses/by/4.0/",
+      "type": "text/html"
+     }
+    ]
+   }
+  }
+ ]
+}

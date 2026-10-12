@@ -8,6 +8,7 @@
 import { loadConfig, Engine } from './engine.js';
 import { MapView, renderLegend } from './map.js';
 import { renderThemeCard, shortErr } from './report.js';
+import { wireExportButton } from './export.js';
 import { MODES, fetchIsochrones, bandsAoi, geocode } from './iso.js';
 import { escapeHtml } from './format.js';
 
@@ -237,11 +238,19 @@ function renderReport() {
                 <div class="band-legend">${config.app.isochrones.minutes.map((m, i) =>
                     `<span><i class="${m === state.minutes ? '' : 'dash'}" style="border-color:${['#0f5132', '#2f8f5b', '#7cc59a'][i] || '#b9e3c6'}"></i>${m} min</span>`).join('')}</div>
             </div>
-            <button class="ghost-btn" id="copy-link" type="button" title="Copy a link to this view">Copy link</button>
+            <div class="head-actions">
+                <button class="ghost-btn" id="export-btn" type="button" title="Download this profile as a report: map, numbers, charts, code (SQL / R / Python) and data citations">Export</button>
+                <button class="ghost-btn" id="copy-link" type="button" title="Copy a link to this view">Copy link</button>
+            </div>
         </div>`;
     $('#copy-link').onclick = async () => {
         try { await navigator.clipboard.writeText(location.href); $('#copy-link').textContent = 'Copied'; } catch { /* ignore */ }
     };
+    wireExportButton($('#export-btn'), () => ({
+        engine, aoi, mapView, kind: `${state.minutes}-minute ${MODES[state.mode].label.toLowerCase()}`,
+        themes: [config.overview, ...orderedThemes()],
+        reportEl: r, legendEl: $('#map-legend'), siteTitle: config.app.title,
+    }));
     const opts = { isCurrent: () => token === state.token, onMapToggle: id => setMapTheme(state.mapTheme === id ? null : id), compareLabel: config.app.compare_label || 'California' };
     r.appendChild(renderThemeCard(engine, config.overview, aoi, { ...opts, overview: true }));
     for (const t of orderedThemes()) r.appendChild(renderThemeCard(engine, t, aoi, opts));

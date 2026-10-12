@@ -7,6 +7,7 @@
 import { loadConfig, Engine, jurisdictionAoi } from './engine.js';
 import { MapView, renderLegend } from './map.js';
 import { renderThemeCard, shortErr } from './report.js';
+import { wireExportButton } from './export.js';
 import { fmt, escapeHtml } from './format.js';
 
 const $ = sel => document.querySelector(sel);
@@ -224,11 +225,19 @@ function renderReport() {
                 <div class="kind">${escapeHtml(state.jur.singular || state.jur.label)}</div>
                 <h2>${escapeHtml(aoi.label)}</h2>
             </div>
-            <button class="ghost-btn" id="copy-link" type="button" title="Copy a link to this profile">Copy link</button>
+            <div class="head-actions">
+                <button class="ghost-btn" id="export-btn" type="button" title="Download this profile as a report: map, numbers, charts, code (SQL / R / Python) and data citations">Export</button>
+                <button class="ghost-btn" id="copy-link" type="button" title="Copy a link to this profile">Copy link</button>
+            </div>
         </div>`;
     $('#copy-link').onclick = async () => {
         try { await navigator.clipboard.writeText(location.href); $('#copy-link').textContent = 'Copied'; } catch { /* ignore */ }
     };
+    wireExportButton($('#export-btn'), () => ({
+        engine, aoi, mapView, kind: state.jur.singular || state.jur.label,
+        themes: [config.overview, ...orderedThemes()],
+        reportEl: r, legendEl: $('#map-legend'), siteTitle: config.app.title,
+    }));
 
     r.appendChild(themeCard(config.overview, aoi, token, { overview: true }));
     if (!state.themes.size) {

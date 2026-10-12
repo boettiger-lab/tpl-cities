@@ -9,6 +9,7 @@ import { fmt, escapeHtml } from './format.js';
 export function renderThemeCard(engine, theme, aoi, { overview = false, isCurrent = () => true, onMapToggle = null, compareLabel = 'California' } = {}) {
     const card = document.createElement('section');
     card.className = 'card' + (overview ? '' : ' theme-card');
+    card.dataset.theme = theme.id;
     card.style.setProperty('--c', theme.color || 'var(--primary)');
     card.innerHTML = `
         <div class="card-head">

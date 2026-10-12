@@ -151,6 +151,7 @@ button, input { font: inherit; color: inherit; }
 .report-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
 .report-head h2 { font-size: 22px; margin: 0; line-height: 1.15; }
 .report-head .kind { font-size: 12px; color: var(--text-3); text-transform: uppercase; letter-spacing: .6px; }
+.head-actions { display: flex; gap: 6px; flex-shrink: 0; }
 .ghost-btn {
     border: 1px solid var(--line-strong); background: var(--card-bg);
     border-radius: 6px; padding: 4px 9px; cursor: pointer; font-size: 12px; white-space: nowrap;
