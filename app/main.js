@@ -26,9 +26,10 @@ let config, engine, mapView;
 
 async function boot() {
     config = await loadConfig('.');
+    const dataBase = config.app.data_base || '.';     // a variant may share the main site's data/
     let statewide = null;
     try {
-        const r = await fetch('data/statewide.json', { cache: 'no-cache' });
+        const r = await fetch(`${dataBase}/data/statewide.json`, { cache: 'no-cache' });
         if (r.ok) statewide = await r.json();
     } catch { /* computed live instead */ }
 
@@ -39,7 +40,13 @@ async function boot() {
         if (r.ok) mcpUrl = (await r.json()).mcp_server_url || mcpUrl;
     } catch { /* default */ }
 
-    engine = new Engine(config, { mcpUrl, statewide });
+    // "engine": "wasm" runs the SQL in the browser (DuckDB-wasm) instead of on the MCP server
+    let client = null;
+    if (config.app.engine === 'wasm') {
+        const { WasmQueryClient } = await import('./wasm.js');
+        client = new WasmQueryClient(config.app.wasm);
+    }
+    engine = new Engine(config, { mcpUrl, statewide, client, dataBase });
     mapView = new MapView('map', config.app);
     mapView.onPick = id => pickById(id);
 
@@ -236,7 +243,7 @@ function renderReport() {
     wireExportButton($('#export-btn'), () => ({
         engine, aoi, mapView, kind: state.jur.singular || state.jur.label,
         themes: [config.overview, ...orderedThemes()],
-        reportEl: r, legendEl: $('#map-legend'), siteTitle: config.app.title,
+        reportEl: r, legendEl: $('#map-legend'), siteTitle: config.app.title, base: engine.dataBase,
     }));
 
     r.appendChild(themeCard(config.overview, aoi, token, { overview: true }));

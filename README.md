@@ -118,6 +118,7 @@ Each subfolder with an `index.html` is a separate variant served at its own path
 |---|---|
 | `/` | **Community Profiles**: jurisdiction-based profiles (this README) |
 | `/access/` | **Nature Within Reach**: click a point and choose walk, bike or drive and 5/10/15 minutes; summarises the reachable area (isochrone) |
+| `/wasm/` | **Community Profiles, in-browser**: the same app with no query server; DuckDB-wasm runs the SQL in the visitor's browser |
 
 To make a new variant, copy a variant folder, edit its `config/app.json` and themes, and run `node scripts/precompute.mjs --site <folder> statewide`. A theme id in `app.json` can be a path such as `"../config/themes/equity"`, so variants can reuse each other's themes.
 
@@ -131,6 +132,16 @@ To make a new variant, copy a variant folder, edit its `config/app.json` and the
 - A theme's `map.type: "hex"` draws res-9 hexagons from H3 id strings (`h3_h3_to_string`) instead of census tracts.
 
 See `notes/isochrones.md` for the routing options (on the fly vs precomputed, and transit).
+
+### In-browser queries (`/wasm/`)
+
+- `"engine": "wasm"` in `app.json` swaps the MCP client for `app/wasm.js`, which runs the same SQL in DuckDB-wasm (with the h3, httpfs and spatial extensions). Themes, reports, ranks and export are shared with `/`, which still uses the MCP server.
+- Places come from small precomputed files rather than a census lookup: `wasm/data/aoi/<jurisdiction>.parquet` holds each feature's compacted H3 cells (res 10, and res 8 in `-r8`), read through the `{{SITE}}` token.
+- Data comes from a **browser tile set** built by `scripts/browser-tiles.py`: California-only copies of each dataset the themes read, one small parquet file per county, keeping only the columns the SQL uses (about 670 MB in all). For each query the client fetches the county files the place needs in parallel, hands them to DuckDB as in-memory buffers, and points the query's `s3://…/h0=*/…` glob at them. `wasm/data/aoi/<jurisdiction>-counties.json` lists each feature's counties.
+- Without the tile set (or for a dataset not in it) queries read the public parquet directly, preferring the source.coop mirror (`rewrite`). That works but is slow: about 11 minutes and 2.8 GB for a county profile.
+- `wasm.tiles.url` in `wasm/config/app.json` says where the tile set is published.
+
+See `notes/in-browser.md` for why the tile set is needed, the benchmarks, and the check against the server results.
 
 ## Run locally
 

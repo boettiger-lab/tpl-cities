@@ -14,6 +14,8 @@
  *               (minutes) that reaches it.
  *   {{ORIGIN_LAT}}, {{ORIGIN_LON}} → (isochrone AOIs only) the starting point.
  *   {{ID}}   → (jurisdiction AOI templates only) the sanitized feature id.
+ *   {{SITE}} → (jurisdiction AOI templates only) absolute URL of the site
+ *               folder, for templates that read the site's own data files.
  *
  * Theme ids in app.json may be paths (e.g. "../config/themes/equity") so a
  * site variant can reuse another variant's themes; the id is the last segment.
@@ -81,13 +83,14 @@ export function expand(template, tokens) {
  */
 export function jurisdictionAoi(jur, feature) {
     const id = sanitizeId(feature.id);
+    const SITE = globalThis.location ? new URL('.', globalThis.location.href).href.replace(/\/$/, '') : '.';
     return {
         key: `${jur.id}:${id}`,
         kind: jur.id,
         id,
         label: feature.name,
-        sql: expand(jur.aoi, { ID: id }).trim(),
-        sql10: expand(jur.aoi10, { ID: id }).trim(),
+        sql: expand(jur.aoi, { ID: id, SITE }).trim(),
+        sql10: expand(jur.aoi10, { ID: id, SITE }).trim(),
     };
 }
 
@@ -99,9 +102,14 @@ export function statewideAoi(app) {
 }
 
 export class Engine {
-    constructor(config, { mcpUrl, statewide = null } = {}) {
+    /**
+     * client: anything with query(sql) → rows; defaults to the MCP client.
+     * dataBase: folder holding data/ (pick lists, peers), relative to the page.
+     */
+    constructor(config, { mcpUrl, statewide = null, client = null, dataBase = '.' } = {}) {
         this.config = config;
-        this.client = new McpQueryClient(mcpUrl || config.app.mcp_url);
+        this.client = client || new McpQueryClient(mcpUrl || config.app.mcp_url);
+        this.dataBase = dataBase;
         this.cache = new Map();          // key → Promise<rows>
         this.statewide = statewide;      // { results: { themeId: { query: rows } } }
     }
@@ -117,7 +125,7 @@ export class Engine {
         const key = `${aoi.key}|${theme.id}|${queryName}`;
         if (!this.cache.has(key)) {
             const sql = this.sqlFor(theme, queryName, aoi);
-            const p = this.client.query(sql).catch(err => {
+            const p = this.client.query(sql, { aoi }).catch(err => {
                 this.cache.delete(key);          // let a retry re-run it
                 err.sql = sql;
                 throw err;
@@ -140,7 +148,7 @@ export class Engine {
      * (data/peers/<theme>/<jur>.json, written by `precompute.mjs peers`);
      * null when absent.
      */
-    peers(themeId, jurId, base = '.') {
+    peers(themeId, jurId, base = this.dataBase) {
         const key = `peers|${themeId}|${jurId}`;
         if (!this.cache.has(key)) {
             this.cache.set(key, fetch(`${base}/data/peers/${themeId}/${jurId}.json`, { cache: 'no-cache' })
@@ -151,7 +159,7 @@ export class Engine {
     }
 
     /** Pick list for a jurisdiction type: precomputed file first, then live. */
-    async listFeatures(jur, base = '.') {
+    async listFeatures(jur, base = this.dataBase) {
         const key = `list|${jur.id}`;
         if (!this.cache.has(key)) {
             this.cache.set(key, (async () => {
