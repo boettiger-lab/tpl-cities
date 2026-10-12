@@ -108,9 +108,19 @@ export class WasmQueryClient {
                     if (!want.length) return `(SELECT * FROM read_parquet('${this.register(files, rel, have[0])}') WHERE false)`;
                     return `read_parquet([${want.map(c => `'${this.register(files, rel, c)}'`).join(', ')}])`;
                 });
-                await Promise.all(files.map(f => this.fetchFile(f.url)));   // in parallel, before queueing
             }
         }
+        // The site's own parquet (area cells) is fetched whole too: GitHub Pages gzips responses
+        // and applies byte ranges to the compressed stream, which breaks DuckDB's range reads.
+        const origin = globalThis.location?.origin;
+        if (origin) {
+            sql = sql.replace(new RegExp(`'(${origin.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&')}/[^']+?\\.parquet)'`, 'g'), (m, url) => {
+                const name = `site${new URL(url).pathname}`;
+                if (!files.some(f => f.name === name)) files.push({ name, url });
+                return `'${name}'`;
+            });
+        }
+        await Promise.all(files.map(f => this.fetchFile(f.url)));
         for (const { from, to } of this.rewrite) sql = sql.split(from).join(to);
         return { sql, files };
     }
