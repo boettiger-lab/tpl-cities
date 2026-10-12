@@ -30,7 +30,7 @@ per AS (
 ),
 tr AS (
   SELECT left(bg, 11) AS GEOID, any_value(cty) AS cty, any_value(tractce) AS tractce,
-         h3_latlng_to_cell(CAST(any_value(lat) AS DOUBLE), CAST(any_value(lon) AS DOUBLE), 10) AS pt,
+         h3_latlng_to_cell(CAST(arg_min(lat, bg) AS DOUBLE), CAST(arg_min(lon, bg) AS DOUBLE), 10) AS pt,  -- first block group's interior point
          SUM(pop * cells_in / cells_all) AS pop,
          SUM(pop * cells_served / cells_all) AS served
   FROM per JOIN tot USING (_cng_fid)
