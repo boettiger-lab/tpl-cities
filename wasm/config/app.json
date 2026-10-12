@@ -41,7 +41,7 @@
             }
         ],
         "tiles": {
-            "url": "https://data.source.coop/cboettig/tpl-cities/browser-tiles",
+            "url": "https://s3.us-west-2.amazonaws.com/us-west-2.opendata.source.coop/cboettig/tpl-cities/browser-tiles",
             "counties": "data/aoi"
         }
     },

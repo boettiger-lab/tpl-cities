@@ -39,7 +39,7 @@ The client:
 3. registers them with DuckDB as buffers;
 4. points the query's glob at them.
 
-The whole tile set is about 525 MB. Benchmarks are full profiles, all 21 queries, with 40 ms simulated latency per request:
+The whole tile set is about 670 MB (1,506 files), published on source.coop at `s3://us-west-2.opendata.source.coop/cboettig/tpl-cities/browser-tiles/` (read over the direct S3 URL; the `data.source.coop` gateway serves only registered products). Benchmarks are full profiles, all 21 queries, with 40 ms simulated latency per request:
 
 | Place | Time | Files | Downloaded |
 |---|---|---|---|
@@ -47,7 +47,7 @@ The whole tile set is about 525 MB. Benchmarks are full profiles, all 21 queries
 | Alameda County | 3.5 s | 186 | 42 MB |
 | Los Angeles County | 11 s | 134 | 155 MB |
 
-- **Cold page load.** In headless Chromium, Alameda finished 11 s after a cold page load, including starting DuckDB.
+- **Cold page load from the hosted tiles.** In headless Chromium, the whole profile finished, from a cold page load and including starting DuckDB, in: Oakland 9.5 s, California's 12th congressional district 8.8 s, Alameda County 13 s, Los Angeles County 16 s.
 - **Bandwidth.** Download size, not latency, now sets the time: about 155 MB for Los Angeles takes about 25 s at 50 Mbit/s. Finer tiles (tract or res-5 cells instead of counties, or no neighbouring counties for the res-10-only datasets) would cut this.
 
 **Results match the server.** All 63 query results (21 queries for Alameda, Los Angeles and Oakland) match the MCP server: the same rows, and numbers equal to within 4 × 10⁻¹¹.
