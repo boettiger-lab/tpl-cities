@@ -48,6 +48,10 @@ sql = ''.join(open(f).read() for f in glob.glob(f'{ROOT}/config/themes/*/*.sql')
 words = set(re.findall(r'\w+', sql))
 datasets = sorted(set(re.findall(r"read_parquet\('(s3://[^']+?)/h0=\*/data_0\.parquet'\)", sql)))
 datasets = [d for d in datasets if not ONLY or any(o in d for o in ONLY)]
+# Never redistributed: TPL ParkServe is proprietary ("host, don't redistribute",
+# geo-agent-ops redistribution policy / data-workflows#461). The app reads it from NRP.
+NO_REDISTRIBUTION = ('public-tpl/parkserve-2025/',)
+datasets = [d for d in datasets if not any(x in d for x in NO_REDISTRIBUTION)]
 
 # California res-8 cells → one county each, and res-10 cell → tract county (for place → counties).
 if not con.execute("SELECT count(*) FROM duckdb_tables() WHERE table_name = 'h8county'").fetchone()[0]:

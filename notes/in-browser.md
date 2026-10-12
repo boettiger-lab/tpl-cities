@@ -39,7 +39,7 @@ The client:
 3. registers them with DuckDB as buffers;
 4. points the query's glob at them.
 
-The whole tile set is about 670 MB (1,506 files), published on source.coop at `s3://us-west-2.opendata.source.coop/cboettig/tpl-cities/browser-tiles/` (read over the direct S3 URL; the `data.source.coop` gateway serves only registered products). Benchmarks are full profiles, all 21 queries, with 40 ms simulated latency per request:
+The whole tile set is about 650 MB (1,396 files; TPL ParkServe is excluded because its terms don't allow redistribution, so the app reads it from NRP), published on source.coop at `s3://us-west-2.opendata.source.coop/cboettig/tpl-cities/browser-tiles/` (read over the direct S3 URL; the `data.source.coop` gateway serves only registered products). Benchmarks are full profiles, all 21 queries, with 40 ms simulated latency per request:
 
 | Place | Time | Files | Downloaded |
 |---|---|---|---|
