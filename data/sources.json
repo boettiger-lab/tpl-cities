@@ -1,0 +1,1407 @@
+{
+ "generated": "2026-10-12T15:37:53.437Z",
+ "catalog": "https://s3-west.nrp-nautilus.io/public-data/stac/catalog.json",
+ "datasets": [
+  {
+   "id": "ca30x30-ecoregion",
+   "prefixes": [
+    "s3://public-ca30x30/ecoregion/hex-res8",
+    "s3://public-ca30x30/ecoregion/hex",
+    "s3://public-ca30x30/ecoregion/hex-res9"
+   ],
+   "stac": {
+    "id": "ca30x30-ecoregion",
+    "title": "California 30x30 Ecoregions (CNRA / ACE Bailey-derived, 2024)",
+    "license": "CC-BY-4.0",
+    "providers": [
+     {
+      "name": "California Department of Fish and Wildlife (CDFW) / California Natural Resources Agency (CNRA)",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://wildlife.ca.gov/Data/Analysis/ACE"
+     },
+     {
+      "name": "USDA Forest Service (Bailey / ECOMAP ecological sections)",
+      "roles": [
+       "producer"
+      ],
+      "url": "https://www.fs.usda.gov/"
+     },
+     {
+      "name": "Boettiger Lab",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://github.com/boettiger-lab"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-ca30x30/ecoregion/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://data.cnra.ca.gov/dataset/areas-of-conservation-emphasis-ace",
+      "type": "text/html",
+      "title": "CNRA Open Data terms (Creative Commons Attribution)"
+     }
+    ]
+   }
+  },
+  {
+   "id": "census-2024-tract",
+   "prefixes": [
+    "https://s3-west.nrp-nautilus.io/public-census/census-2024/tract.pmtiles",
+    "s3://public-census/census-2024/tract/hex"
+   ],
+   "stac": {
+    "id": "census-2024-tract",
+    "title": "US Census 2024 Census Tract Boundaries with H3 Indexing",
+    "license": "public-domain",
+    "providers": [
+     {
+      "name": "US Census Bureau",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html"
+     },
+     {
+      "name": "Boettiger Lab",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://github.com/boettiger-lab"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-census/census-2024/tract/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "about",
+      "href": "https://www.census.gov/programs-surveys/geography/about/glossary.html#par_textimage_13"
+     },
+     {
+      "rel": "license",
+      "href": "https://www.usa.gov/government-works",
+      "title": "U.S. Government Works"
+     }
+    ]
+   }
+  },
+  {
+   "id": "census-2024-place",
+   "prefixes": [
+    "s3://public-census/census-2024/place/hex",
+    "s3://public-census/census-2024/place.parquet",
+    "https://s3-west.nrp-nautilus.io/public-census/census-2024/place.pmtiles"
+   ],
+   "stac": {
+    "id": "census-2024-place",
+    "title": "US Census 2024 Place (City) Boundaries with H3 Indexing",
+    "license": "public-domain",
+    "providers": [
+     {
+      "name": "US Census Bureau",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html"
+     },
+     {
+      "name": "Boettiger Lab",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://github.com/boettiger-lab"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-census/census-2024/place/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://www.usa.gov/government-works",
+      "title": "U.S. Government Works"
+     }
+    ]
+   }
+  },
+  {
+   "id": "census-2024-county",
+   "prefixes": [
+    "s3://public-census/census-2024/county/hex",
+    "s3://public-census/census-2024/county.parquet",
+    "https://s3-west.nrp-nautilus.io/public-census/census-2024/county.pmtiles"
+   ],
+   "stac": {
+    "id": "census-2024-county",
+    "title": "US Census 2024 County Boundaries with H3 Indexing",
+    "license": "public-domain",
+    "providers": [
+     {
+      "name": "US Census Bureau",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html"
+     },
+     {
+      "name": "Boettiger Lab",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://github.com/boettiger-lab"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-census/census-2024/county/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "about",
+      "href": "https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/tiger-geo-line.html"
+     },
+     {
+      "rel": "license",
+      "href": "https://www.usa.gov/government-works",
+      "title": "U.S. Government Works"
+     }
+    ]
+   }
+  },
+  {
+   "id": "census-2024-cd",
+   "prefixes": [
+    "s3://public-census/census-2024/cd/hex",
+    "s3://public-census/census-2024/cd.parquet",
+    "https://s3-west.nrp-nautilus.io/public-census/census-2024/cd.pmtiles"
+   ],
+   "stac": {
+    "id": "census-2024-cd",
+    "title": "US Census 2024 Congressional District Boundaries with H3 Indexing",
+    "license": "public-domain",
+    "providers": [
+     {
+      "name": "US Census Bureau",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html"
+     },
+     {
+      "name": "Boettiger Lab",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://github.com/boettiger-lab"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-census/census-2024/cd/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "about",
+      "href": "https://www.census.gov/programs-surveys/geography/guidance/geo-areas/congressional-dist.html"
+     },
+     {
+      "rel": "license",
+      "href": "https://www.usa.gov/government-works",
+      "title": "U.S. Government Works"
+     }
+    ]
+   }
+  },
+  {
+   "id": "census-2025-sldu",
+   "prefixes": [
+    "s3://public-census/census-2025/sldu/hex",
+    "s3://public-census/census-2025/sldu.parquet",
+    "https://s3-west.nrp-nautilus.io/public-census/census-2025/sldu.pmtiles"
+   ],
+   "stac": {
+    "id": "census-2025-sldu",
+    "title": "US Census 2025 State Legislative Districts — Upper Chamber",
+    "license": "public-domain",
+    "providers": [
+     {
+      "name": "US Census Bureau",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html"
+     },
+     {
+      "name": "Boettiger Lab",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://github.com/boettiger-lab"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-census/census-2025/sldu/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "about",
+      "href": "https://www.census.gov/programs-surveys/geography/about/glossary.html"
+     },
+     {
+      "rel": "license",
+      "href": "https://www.usa.gov/government-works",
+      "title": "U.S. Government Works"
+     }
+    ]
+   }
+  },
+  {
+   "id": "census-2025-sldl",
+   "prefixes": [
+    "s3://public-census/census-2025/sldl/hex",
+    "s3://public-census/census-2025/sldl.parquet",
+    "https://s3-west.nrp-nautilus.io/public-census/census-2025/sldl.pmtiles"
+   ],
+   "stac": {
+    "id": "census-2025-sldl",
+    "title": "US Census 2025 State Legislative Districts — Lower Chamber",
+    "license": "public-domain",
+    "providers": [
+     {
+      "name": "US Census Bureau",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html"
+     },
+     {
+      "name": "Boettiger Lab",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://github.com/boettiger-lab"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-census/census-2025/sldl/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "about",
+      "href": "https://www.census.gov/programs-surveys/geography/about/glossary.html"
+     },
+     {
+      "rel": "license",
+      "href": "https://www.usa.gov/government-works",
+      "title": "U.S. Government Works"
+     }
+    ]
+   }
+  },
+  {
+   "id": "ca30x30-conserved-areas-terrestrial-2025",
+   "prefixes": [
+    "s3://public-ca30x30/conserved-areas-terrestrial-2025/hex-weights",
+    "s3://public-ca30x30/conserved-areas-terrestrial-2025/hex-weights-res8",
+    "s3://public-ca30x30/conserved-areas-terrestrial-2025/hex-weights-res9"
+   ],
+   "stac": {
+    "id": "ca30x30-conserved-areas-terrestrial-2025",
+    "title": "30x30 Conserved Areas, Terrestrial (2025)",
+    "license": "CC-BY-4.0",
+    "providers": [
+     {
+      "name": "CA Nature working group, California Natural Resources Agency (CNRA)",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://www.californianature.ca.gov/datasets/CAnature::30x30-conserved-areas-terrestrial-2025/about"
+     },
+     {
+      "name": "Boettiger Lab",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://github.com/boettiger-lab"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-ca30x30/conserved-areas-terrestrial-2025/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://creativecommons.org/licenses/by/4.0/",
+      "type": "text/html",
+      "title": "Creative Commons Attribution 4.0 International (CC-BY-4.0)"
+     }
+    ]
+   }
+  },
+  {
+   "id": "acs-2020-2024-blockgroup",
+   "prefixes": [
+    "s3://public-census/acs-2020-2024/blockgroup/hex"
+   ],
+   "stac": {
+    "id": "acs-2020-2024-blockgroup",
+    "title": "ACS 2020–2024 Block-Group Demographics (with H3 Indexing)",
+    "license": "public-domain",
+    "providers": [
+     {
+      "name": "US Census Bureau",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://www.census.gov/programs-surveys/acs"
+     },
+     {
+      "name": "Boettiger Lab",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://github.com/boettiger-lab"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-census/acs-2020-2024/blockgroup/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://www.census.gov/data/developers/about/terms-of-service.html",
+      "type": "text/html"
+     }
+    ]
+   }
+  },
+  {
+   "id": "wcb-approved-projects",
+   "prefixes": [
+    "s3://public-tpl/wcb-approved-projects/hex"
+   ],
+   "stac": {
+    "id": "wcb-approved-projects",
+    "title": "WCB Approved Projects (CDFW BIOS ds672)",
+    "license": "CC-BY-4.0",
+    "providers": [
+     {
+      "name": "California Department of Fish and Wildlife — Wildlife Conservation Board",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://wildlife.ca.gov/Conservation/Planning/BIOS"
+     },
+     {
+      "name": "Boettiger Lab / NRP Nautilus",
+      "roles": [
+       "host",
+       "processor"
+      ],
+      "url": "https://s3-west.nrp-nautilus.io/public-tpl/"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-tpl/wcb-approved-projects/stac-collection.json",
+      "type": "application/json"
+     }
+    ]
+   }
+  },
+  {
+   "id": "parkserve-2025-service-areas",
+   "prefixes": [
+    "s3://public-tpl/parkserve-2025/service-areas/hex"
+   ],
+   "stac": {
+    "id": "parkserve-2025-service-areas",
+    "title": "ParkServe 10-Minute-Walk Service Areas (nationwide)",
+    "license": "proprietary",
+    "providers": [
+     {
+      "name": "Trust for Public Land (TPL)",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://www.tpl.org/parkserve",
+      "description": "ParkServe® database. Suggested citation: Trust for Public Land. (2025). ParkServe [Database]. tpl.org/parkserve."
+     },
+     {
+      "name": "Center for Applied Research and Engagement Systems, University of Missouri Extension",
+      "roles": [
+       "processor"
+      ],
+      "url": "https://engagementnetwork.org/"
+     },
+     {
+      "name": "Boettiger Lab, UC Berkeley",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://carlboettiger.info/"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-tpl/parkserve-2025/service-areas/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://www.tpl.org/legal-disclosure-terms-use",
+      "type": "text/html",
+      "title": "TPL Terms of Use"
+     }
+    ]
+   }
+  },
+  {
+   "id": "parkserve-2025-priority-areas-place",
+   "prefixes": [
+    "s3://public-tpl/parkserve-2025/priority-areas-place/hex"
+   ],
+   "stac": {
+    "id": "parkserve-2025-priority-areas-place",
+    "title": "ParkServe Priority Areas for New Parks — by Place (nationwide)",
+    "license": "proprietary",
+    "providers": [
+     {
+      "name": "Trust for Public Land (TPL)",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://www.tpl.org/parkserve",
+      "description": "ParkServe® database. Suggested citation: Trust for Public Land. (2025). ParkServe [Database]. tpl.org/parkserve."
+     },
+     {
+      "name": "Center for Applied Research and Engagement Systems, University of Missouri Extension",
+      "roles": [
+       "processor"
+      ],
+      "url": "https://engagementnetwork.org/"
+     },
+     {
+      "name": "Boettiger Lab, UC Berkeley",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://carlboettiger.info/"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-tpl/parkserve-2025/priority-areas-place/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://www.tpl.org/legal-disclosure-terms-use",
+      "type": "text/html",
+      "title": "TPL Terms of Use"
+     }
+    ]
+   }
+  },
+  {
+   "id": "ca-dac-eda-2023",
+   "prefixes": [
+    "s3://public-ca-dac/dac-2023/tract/hex"
+   ],
+   "stac": {
+    "id": "ca-dac-eda-2023",
+    "title": "California Disadvantaged Communities (DAC) and Economically Distressed Areas (EDA), 2023",
+    "license": "CC-BY-4.0",
+    "providers": [
+     {
+      "name": "California Department of Water Resources",
+      "description": "Authoritative producer of DAC/EDA designations under California Water Code",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://water.ca.gov/"
+     },
+     {
+      "name": "California Natural Resources Agency",
+      "description": "Open Data hub publishing the underlying GIS layers",
+      "roles": [
+       "host"
+      ],
+      "url": "https://data.cnra.ca.gov/"
+     },
+     {
+      "name": "Boettiger Lab",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://github.com/boettiger-lab"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-ca-dac/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "about",
+      "href": "https://gis.water.ca.gov/app/dacs/",
+      "title": "DWR DAC and EDA Mapping Tool"
+     },
+     {
+      "rel": "license",
+      "href": "https://creativecommons.org/licenses/by/4.0/",
+      "type": "text/html"
+     }
+    ]
+   }
+  },
+  {
+   "id": "park-access-2020-no-park-access",
+   "prefixes": [
+    "s3://public-parks/park-access-2020/no-park-access/hex"
+   ],
+   "stac": {
+    "id": "park-access-2020-no-park-access",
+    "title": "Areas Without Park Access, by Population Density (California, SCORP 2020)",
+    "license": "CC-BY-4.0",
+    "providers": [
+     {
+      "name": "GreenInfo Network",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://www.greeninfo.org/",
+      "description": "CPAD (parks source) and Parks for All Californians tooling."
+     },
+     {
+      "name": "California Department of Parks and Recreation — Office of Grants and Local Services (OGALS)",
+      "roles": [
+       "producer"
+      ],
+      "url": "https://www.parksforcalifornia.org/parkaccess/",
+      "description": "SCORP 2020 Park Access Tool."
+     },
+     {
+      "name": "Boettiger Lab, UC Berkeley",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://carlboettiger.info/"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-parks/park-access-2020/no-park-access/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://creativecommons.org/licenses/by/4.0/",
+      "type": "text/html",
+      "title": "CC-BY-4.0"
+     }
+    ]
+   }
+  },
+  {
+   "id": "park-access-2020-tract-acres-per-thousand",
+   "prefixes": [
+    "s3://public-parks/park-access-2020/tract-acres-per-thousand/hex"
+   ],
+   "stac": {
+    "id": "park-access-2020-tract-acres-per-thousand",
+    "title": "Park Acres per 1,000 Residents (California, SCORP 2020)",
+    "license": "CC-BY-4.0",
+    "providers": [
+     {
+      "name": "GreenInfo Network",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://www.greeninfo.org/",
+      "description": "CPAD (parks source) and Parks for All Californians tooling."
+     },
+     {
+      "name": "California Department of Parks and Recreation — Office of Grants and Local Services (OGALS)",
+      "roles": [
+       "producer"
+      ],
+      "url": "https://www.parksforcalifornia.org/parkaccess/",
+      "description": "SCORP 2020 Park Access Tool."
+     },
+     {
+      "name": "Boettiger Lab, UC Berkeley",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://carlboettiger.info/"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-parks/park-access-2020/tract-acres-per-thousand/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://creativecommons.org/licenses/by/4.0/",
+      "type": "text/html",
+      "title": "CC-BY-4.0"
+     }
+    ]
+   }
+  },
+  {
+   "id": "calenviroscreen-5-0",
+   "prefixes": [
+    "s3://public-calenviroscreen/calenviroscreen-5-0/ces5/hex"
+   ],
+   "stac": {
+    "id": "calenviroscreen-5-0",
+    "title": "CalEnviroScreen 5.0 (Draft)",
+    "license": "public-domain",
+    "providers": [
+     {
+      "name": "California Office of Environmental Health Hazard Assessment (OEHHA)",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://oehha.ca.gov/calenviroscreen"
+     },
+     {
+      "name": "Boettiger Lab",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://github.com/boettiger-lab"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-calenviroscreen/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://oehha.ca.gov/calenviroscreen",
+      "type": "text/html"
+     }
+    ]
+   }
+  },
+  {
+   "id": "chelsa-2-1-baseline-1981-2010",
+   "prefixes": [
+    "s3://public-bioclimate/chelsa-2-1/baseline-1981-2010/hex"
+   ],
+   "stac": {
+    "id": "chelsa-2-1-baseline-1981-2010",
+    "title": "CHELSA 2.1 Bioclimate — observed baseline, 1981-2010 (global land)",
+    "license": "CC0-1.0",
+    "providers": [
+     {
+      "name": "CHELSA (Swiss Federal Institute for Forest, Snow and Landscape Research WSL)",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://chelsa-climate.org/"
+     },
+     {
+      "name": "Boettiger Lab, UC Berkeley",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://s3-west.nrp-nautilus.io/public-bioclimate/"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-bioclimate/chelsa-2-1/baseline-1981-2010/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://chelsa-climate.org/terms-of-use/",
+      "type": "text/html",
+      "title": "CHELSA terms of use (CC0 1.0)"
+     },
+     {
+      "rel": "cite-as",
+      "href": "https://doi.org/10.1038/sdata.2017.122",
+      "type": "text/html",
+      "title": "Karger et al. 2017, Climatologies at high resolution for the earth's land surface areas"
+     }
+    ]
+   }
+  },
+  {
+   "id": "chelsa-2-1-ssp370-2041-2070",
+   "prefixes": [
+    "s3://public-bioclimate/chelsa-2-1/ssp370-2041-2070/hex"
+   ],
+   "stac": {
+    "id": "chelsa-2-1-ssp370-2041-2070",
+    "title": "CHELSA 2.1 Future Bioclimate — SSP3-7.0, 2041-2070 (global land)",
+    "license": "CC0-1.0",
+    "providers": [
+     {
+      "name": "CHELSA (Swiss Federal Institute for Forest, Snow and Landscape Research WSL)",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://chelsa-climate.org/"
+     },
+     {
+      "name": "Boettiger Lab, UC Berkeley",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://s3-west.nrp-nautilus.io/public-bioclimate/"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-bioclimate/chelsa-2-1/ssp370-2041-2070/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://chelsa-climate.org/terms-of-use/",
+      "type": "text/html",
+      "title": "CHELSA terms of use (CC0 1.0)"
+     },
+     {
+      "rel": "cite-as",
+      "href": "https://doi.org/10.1038/sdata.2017.122",
+      "type": "text/html",
+      "title": "Karger et al. 2017, Climatologies at high resolution for the earth's land surface areas"
+     }
+    ]
+   }
+  },
+  {
+   "id": "flood-hazard",
+   "prefixes": [
+    "s3://public-hazard/flood-hazard/hex"
+   ],
+   "stac": {
+    "id": "flood-hazard",
+    "title": "FEMA National Flood Hazard Layer — Flood Hazard Zones (National)",
+    "license": "public-domain",
+    "providers": [
+     {
+      "name": "FEMA — Federal Emergency Management Agency",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://www.fema.gov/flood-maps/national-flood-hazard-layer"
+     },
+     {
+      "name": "NRP / boettiger-lab",
+      "roles": [
+       "processor",
+       "host"
+      ]
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-hazard/flood-hazard/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "about",
+      "href": "https://www.fema.gov/flood-maps/national-flood-hazard-layer",
+      "type": "text/html"
+     }
+    ]
+   }
+  },
+  {
+   "id": "sea-level-rise",
+   "prefixes": [
+    "s3://public-hazard/sea-level-rise/hex"
+   ],
+   "stac": {
+    "id": "sea-level-rise",
+    "title": "Sea Level Rise Inundation — NOAA (National, 5 ft)",
+    "license": "public-domain",
+    "providers": [
+     {
+      "name": "NOAA Office for Coastal Management",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://coast.noaa.gov/slrdata/"
+     },
+     {
+      "name": "NRP / boettiger-lab",
+      "roles": [
+       "processor",
+       "host"
+      ]
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-hazard/sea-level-rise/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "about",
+      "href": "https://coast.noaa.gov/slr/",
+      "type": "text/html"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fire-perimeters",
+   "prefixes": [
+    "s3://public-fire/calfire-2025/firep/hex",
+    "s3://public-fire/calfire-2025/rxburn/hex"
+   ],
+   "stac": {
+    "id": "fire-perimeters",
+    "title": "Wildfire: hazard potential, observed burn severity, and fire perimeters",
+    "license": "various",
+    "providers": [
+     {
+      "name": "CAL FIRE FRAP",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://www.fire.ca.gov/what-we-do/fire-resource-assessment-program"
+     },
+     {
+      "name": "USGS",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://www.sciencebase.gov/catalog/item/61aa537dd34eb622f699df81"
+     },
+     {
+      "name": "Boettiger Lab, UC Berkeley",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://s3-west.nrp-nautilus.io/public-fire/"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-fire/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "about",
+      "href": "https://www.fire.ca.gov/what-we-do/fire-resource-assessment-program",
+      "type": "text/html",
+      "title": "CAL FIRE FRAP"
+     },
+     {
+      "rel": "about",
+      "href": "https://www.sciencebase.gov/catalog/item/61aa537dd34eb622f699df81",
+      "type": "text/html",
+      "title": "USGS Combined Wildland Fire Datasets"
+     }
+    ]
+   }
+  },
+  {
+   "id": "whp-2023-classified-conus",
+   "prefixes": [
+    "s3://public-fire/whp-2023-classified-conus/hex"
+   ],
+   "stac": {
+    "id": "whp-2023-classified-conus",
+    "title": "Wildfire Hazard Potential 2023 — classified, CONUS",
+    "license": "public-domain",
+    "providers": [
+     {
+      "name": "Gregory K. Dillon, USDA Forest Service Rocky Mountain Research Station, Fire Sciences Laboratory",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://research.fs.usda.gov/firelab/products/dataandtools/wildfire-hazard-potential"
+     },
+     {
+      "name": "USDA Forest Service Research Data Archive",
+      "roles": [
+       "licensor",
+       "host"
+      ],
+      "url": "https://www.fs.usda.gov/rds/archive/products/RDS-2015-0047-4"
+     },
+     {
+      "name": "Boettiger Lab / cirrus",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://s3-west.nrp-nautilus.io/public-fire/"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-fire/whp-2023-classified-conus/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://www.usa.gov/government-works",
+      "type": "text/html",
+      "title": "US Government work — public domain"
+     },
+     {
+      "rel": "cite-as",
+      "href": "https://doi.org/10.2737/RDS-2015-0047-4",
+      "title": "Dillon, G.K. 2023. Wildfire Hazard Potential for the United States (270-m), version 2023. 4th Edition. Fort Collins, CO: Forest Service Research Data Archive."
+     },
+     {
+      "rel": "about",
+      "href": "https://research.fs.usda.gov/firelab/products/dataandtools/wildfire-hazard-potential",
+      "type": "text/html",
+      "title": "Wildfire Hazard Potential product page"
+     }
+    ]
+   }
+  },
+  {
+   "id": "chelsa-2-1-ssp126-2041-2070",
+   "prefixes": [
+    "s3://public-bioclimate/chelsa-2-1/ssp126-2041-2070/hex"
+   ],
+   "stac": {
+    "id": "chelsa-2-1-ssp126-2041-2070",
+    "title": "CHELSA 2.1 Future Bioclimate — SSP1-2.6, 2041-2070 (global land)",
+    "license": "CC0-1.0",
+    "providers": [
+     {
+      "name": "CHELSA (Swiss Federal Institute for Forest, Snow and Landscape Research WSL)",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://chelsa-climate.org/"
+     },
+     {
+      "name": "Boettiger Lab, UC Berkeley",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://s3-west.nrp-nautilus.io/public-bioclimate/"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-bioclimate/chelsa-2-1/ssp126-2041-2070/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://chelsa-climate.org/terms-of-use/",
+      "type": "text/html",
+      "title": "CHELSA terms of use (CC0 1.0)"
+     },
+     {
+      "rel": "cite-as",
+      "href": "https://doi.org/10.1038/sdata.2017.122",
+      "type": "text/html",
+      "title": "Karger et al. 2017, Climatologies at high resolution for the earth's land surface areas"
+     }
+    ]
+   }
+  },
+  {
+   "id": "chelsa-2-1-ssp585-2041-2070",
+   "prefixes": [
+    "s3://public-bioclimate/chelsa-2-1/ssp585-2041-2070/hex"
+   ],
+   "stac": {
+    "id": "chelsa-2-1-ssp585-2041-2070",
+    "title": "CHELSA 2.1 Future Bioclimate — SSP5-8.5, 2041-2070 (global land)",
+    "license": "CC0-1.0",
+    "providers": [
+     {
+      "name": "CHELSA (Swiss Federal Institute for Forest, Snow and Landscape Research WSL)",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://chelsa-climate.org/"
+     },
+     {
+      "name": "Boettiger Lab, UC Berkeley",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://s3-west.nrp-nautilus.io/public-bioclimate/"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-bioclimate/chelsa-2-1/ssp585-2041-2070/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://chelsa-climate.org/terms-of-use/",
+      "type": "text/html",
+      "title": "CHELSA terms of use (CC0 1.0)"
+     },
+     {
+      "rel": "cite-as",
+      "href": "https://doi.org/10.1038/sdata.2017.122",
+      "type": "text/html",
+      "title": "Karger et al. 2017, Climatologies at high resolution for the earth's land surface areas"
+     }
+    ]
+   }
+  },
+  {
+   "id": "chelsa-2-1-ssp126-2071-2100",
+   "prefixes": [
+    "s3://public-bioclimate/chelsa-2-1/ssp126-2071-2100/hex"
+   ],
+   "stac": {
+    "id": "chelsa-2-1-ssp126-2071-2100",
+    "title": "CHELSA 2.1 Future Bioclimate — SSP1-2.6, 2071-2100 (global land)",
+    "license": "CC0-1.0",
+    "providers": [
+     {
+      "name": "CHELSA (Swiss Federal Institute for Forest, Snow and Landscape Research WSL)",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://chelsa-climate.org/"
+     },
+     {
+      "name": "Boettiger Lab, UC Berkeley",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://s3-west.nrp-nautilus.io/public-bioclimate/"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-bioclimate/chelsa-2-1/ssp126-2071-2100/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://chelsa-climate.org/terms-of-use/",
+      "type": "text/html",
+      "title": "CHELSA terms of use (CC0 1.0)"
+     },
+     {
+      "rel": "cite-as",
+      "href": "https://doi.org/10.1038/sdata.2017.122",
+      "type": "text/html",
+      "title": "Karger et al. 2017, Climatologies at high resolution for the earth's land surface areas"
+     }
+    ]
+   }
+  },
+  {
+   "id": "chelsa-2-1-ssp370-2071-2100",
+   "prefixes": [
+    "s3://public-bioclimate/chelsa-2-1/ssp370-2071-2100/hex"
+   ],
+   "stac": {
+    "id": "chelsa-2-1-ssp370-2071-2100",
+    "title": "CHELSA 2.1 Future Bioclimate — SSP3-7.0, 2071-2100 (global land)",
+    "license": "CC0-1.0",
+    "providers": [
+     {
+      "name": "CHELSA (Swiss Federal Institute for Forest, Snow and Landscape Research WSL)",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://chelsa-climate.org/"
+     },
+     {
+      "name": "Boettiger Lab, UC Berkeley",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://s3-west.nrp-nautilus.io/public-bioclimate/"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-bioclimate/chelsa-2-1/ssp370-2071-2100/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://chelsa-climate.org/terms-of-use/",
+      "type": "text/html",
+      "title": "CHELSA terms of use (CC0 1.0)"
+     },
+     {
+      "rel": "cite-as",
+      "href": "https://doi.org/10.1038/sdata.2017.122",
+      "type": "text/html",
+      "title": "Karger et al. 2017, Climatologies at high resolution for the earth's land surface areas"
+     }
+    ]
+   }
+  },
+  {
+   "id": "chelsa-2-1-ssp585-2071-2100",
+   "prefixes": [
+    "s3://public-bioclimate/chelsa-2-1/ssp585-2071-2100/hex"
+   ],
+   "stac": {
+    "id": "chelsa-2-1-ssp585-2071-2100",
+    "title": "CHELSA 2.1 Future Bioclimate — SSP5-8.5, 2071-2100 (global land)",
+    "license": "CC0-1.0",
+    "providers": [
+     {
+      "name": "CHELSA (Swiss Federal Institute for Forest, Snow and Landscape Research WSL)",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://chelsa-climate.org/"
+     },
+     {
+      "name": "Boettiger Lab, UC Berkeley",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://s3-west.nrp-nautilus.io/public-bioclimate/"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-bioclimate/chelsa-2-1/ssp585-2071-2100/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://chelsa-climate.org/terms-of-use/",
+      "type": "text/html",
+      "title": "CHELSA terms of use (CC0 1.0)"
+     },
+     {
+      "rel": "cite-as",
+      "href": "https://doi.org/10.1038/sdata.2017.122",
+      "type": "text/html",
+      "title": "Karger et al. 2017, Climatologies at high resolution for the earth's land surface areas"
+     }
+    ]
+   }
+  },
+  {
+   "id": "swap-2025-sgcn-ranges",
+   "prefixes": [
+    "s3://public-swap/california/swap-2025/sgcn-ranges/hex"
+   ],
+   "stac": {
+    "id": "swap-2025-sgcn-ranges",
+    "title": "California SWAP 2025 — SGCN Species Ranges (v4)",
+    "license": "CC-BY-4.0",
+    "providers": [
+     {
+      "name": "California Department of Fish and Wildlife (CDFW)",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://wildlife.ca.gov/SWAP"
+     },
+     {
+      "name": "Boettiger Lab",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://boettigerlab.berkeley.edu"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-swap/california/swap-2025/sgcn-ranges/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://creativecommons.org/licenses/by/4.0/",
+      "type": "text/html",
+      "title": "CC-BY-4.0"
+     }
+    ]
+   }
+  },
+  {
+   "id": "swap-2025-sgcn-species",
+   "prefixes": [
+    "s3://public-swap/california/swap-2025/sgcn-species.parquet"
+   ],
+   "stac": {
+    "id": "swap-2025-sgcn-species",
+    "title": "California SWAP 2025 — SGCN Species list",
+    "license": "CC-BY-4.0",
+    "providers": [
+     {
+      "name": "California Department of Fish and Wildlife (CDFW)",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://wildlife.ca.gov/SWAP"
+     },
+     {
+      "name": "Boettiger Lab",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://boettigerlab.berkeley.edu"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-swap/california/swap-2025/sgcn-species/stac-collection.json",
+      "type": "application/json"
+     },
+     {
+      "rel": "license",
+      "href": "https://creativecommons.org/licenses/by/4.0/",
+      "type": "text/html",
+      "title": "CC-BY-4.0"
+     }
+    ]
+   }
+  },
+  {
+   "id": "usfws-critical-habitat-final",
+   "prefixes": [
+    "s3://public-usfws/critical-habitat/final/hex"
+   ],
+   "stac": {
+    "id": "usfws-critical-habitat-final",
+    "title": "USFWS Critical Habitat — (-179.14643, 13.639711, 179.776432, 74.024895) (Polygon Features)",
+    "license": "public-domain",
+    "providers": [
+     {
+      "name": "U.S. Fish and Wildlife Service (USFWS)",
+      "roles": [
+       "producer",
+       "licensor"
+      ],
+      "url": "https://www.fws.gov/program/endangered-species"
+     },
+     {
+      "name": "Boettiger Lab",
+      "roles": [
+       "processor",
+       "host"
+      ],
+      "url": "https://boettigerlab.berkeley.edu"
+     }
+    ],
+    "links": [
+     {
+      "rel": "self",
+      "href": "https://s3-west.nrp-nautilus.io/public-usfws/critical-habitat/final/stac-collection.json",
+      "type": "application/json"
+     }
+    ]
+   }
+  }
+ ]
+}

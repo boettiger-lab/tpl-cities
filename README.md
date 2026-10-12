@@ -18,6 +18,8 @@ app/                  ES modules
   main.js             UI: jurisdiction → dimensions → place → report; URL hash state
   map.js              boundaries (PMTiles), selection, tract choropleth
   charts.js           horizontal bar charts in plain SVG
+  export.js           "Export" button: self-contained HTML report (see below)
+  sources.js          data path ↔ STAC record matching (export citations)
 config/
   app.json            jurisdictions (AOI SQL, pick list, boundary tiles), theme list
   themes/<id>/        theme.json (headlines, charts, map) + *.sql templates
@@ -25,6 +27,7 @@ data/
   lists/*.json        precomputed pick lists (id, name, bbox)
   statewide.json      precomputed statewide results for every theme query
   peers/<theme>/<jur>.json  precomputed per-jurisdiction scores (for ranks)
+  sources.json        STAC records of every dataset the config reads (citations)
 scripts/precompute.mjs   regenerates data/ using the same engine
 ```
 
@@ -94,6 +97,18 @@ Add an entry to `jurisdictions` in `config/app.json`. It needs:
 - optionally, `cells10` (every feature's `id, h0, h10`) and `peer_label`, for ranks.
 
 Then run `node scripts/precompute.mjs lists`. Drawn or uploaded polygons are planned to plug in the same way, with an AOI built from an H3 polyfill.
+
+## Export
+
+**Export**, at the top of every profile, downloads a single self-contained HTML report, modeled on geo-agent's session export. It has:
+
+- **Map:** the live map, re-hydrated from its MapLibre style and camera (it needs a network connection), plus its legend. A PNG snapshot replaces it when printing, because WebGL canvases often print blank.
+- **Panels:** the headline tiles and charts as they appeared, each section's method note, and every query behind them. Queries are folded code chunks with a **SQL / R / Python** toggle, each with its output table.
+- **Re-running:** a setup chunk points `s3://` at the public endpoint anonymously, so the code re-runs outside the cluster. **Downloads** of the whole profile as `.R`, `.py`, `.qmd` or `.ipynb` are in the document's Options.
+- **Print / PDF:** prints with all code unfolded, or *without code* for a short document.
+- **Data sources:** a citation for each dataset the queries read or the map drew. Citations are matched to STAC records in `data/sources.json`; regenerate it with `node scripts/precompute.mjs [--site <folder>] sources` after adding a dataset.
+
+The SQL/R/Python wrappers, the S3 setup block, the map embed and the citation fields are imported from [geo-agent](https://github.com/boettiger-lab/geo-agent)'s `app/export-report.js`, pinned to a release, only when someone exports. Both apps therefore hand readers the same runnable code.
 
 ## Site variants
 
