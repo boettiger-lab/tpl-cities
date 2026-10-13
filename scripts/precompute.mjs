@@ -5,6 +5,10 @@
  *   data/statewide.json              every theme query run over all of California
  *   data/peers/<theme>/<jur>.json    a theme's "peers" query over every feature
  *                                    of each jurisdiction type (for ranks)
+ *   data/results/<theme>/<query>/<jur>.json   a query's results for every
+ *                                    feature, {id: rows}, for queries with a
+ *                                    "precompute" SQL file (served instead of
+ *                                    a live query)
  *   data/sources.json                the STAC records of every dataset the
  *                                    config reads (for the export's citations)
  *
@@ -14,6 +18,7 @@
  *   node scripts/precompute.mjs lists           # pick lists only
  *   node scripts/precompute.mjs statewide [theme ...]
  *   node scripts/precompute.mjs peers [theme ...]
+ *   node scripts/precompute.mjs results [theme ...]
  *   node scripts/precompute.mjs sources
  *   node scripts/precompute.mjs --site access statewide   # a site variant in ./access
  */
@@ -81,6 +86,30 @@ if (what === 'all' || what === 'peers') {
                 console.log(`peers ${theme.id}.${jur.id}: ${rows.length} rows (${((Date.now() - t0) / 1000).toFixed(1)}s)`);
             } catch (err) {
                 console.error(`peers ${theme.id}.${jur.id}: FAILED — ${err.message.split('\n')[0]}`);
+            }
+        }
+    }
+}
+
+if (what === 'all' || what === 'results') {
+    for (const theme of [config.overview, ...config.themes]) {
+        if (only.length && !only.includes(theme.id)) continue;
+        const dir = config.app.themes.concat(config.app.overview).find(t => t.split('/').pop() === theme.id);
+        for (const [name, q] of Object.entries(theme.queries)) {
+            if (!q.precompute) continue;
+            const sql = await fetchText(`${root}/${dir.includes('/') ? dir : `config/themes/${dir}`}/${q.precompute}`);
+            await mkdir(`${root}/data/results/${theme.id}/${name}`, { recursive: true });
+            for (const jur of config.app.jurisdictions || []) {
+                if (!jur.cells10) continue;
+                const t0 = Date.now();
+                try {
+                    const byId = {};
+                    for (const { id, ...row } of await engine.client.query(expand(sql, { CELLS10: jur.cells10 }))) (byId[id] ??= []).push(row);
+                    await writeFile(`${root}/data/results/${theme.id}/${name}/${jur.id}.json`, JSON.stringify(byId));
+                    console.log(`results ${theme.id}.${name}.${jur.id}: ${Object.keys(byId).length} features (${((Date.now() - t0) / 1000).toFixed(1)}s)`);
+                } catch (err) {
+                    console.error(`results ${theme.id}.${name}.${jur.id}: FAILED — ${err.message.split('\n')[0]}`);
+                }
             }
         }
     }

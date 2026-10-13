@@ -4,7 +4,8 @@
     "blurb": "Who can walk to a park in 10 minutes, using the Trust for Public Land's ParkServe walk zones, and which neighborhoods are left out.",
     "queries": {
         "access": {
-            "file": "access.sql"
+            "file": "access.sql",
+            "precompute": "access-all.sql"
         },
         "need": {
             "file": "need.sql"
