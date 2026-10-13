@@ -54,6 +54,39 @@ The whole tile set is about 650 MB (1,396 files; TPL ParkServe is excluded becau
 
 The comparison also turned up a bug in the main app. `access/tracts.sql` labelled each tract from an arbitrary block group's latitude and an arbitrary one's longitude (`any_value` twice), so labels could change between runs. It now uses the first block group's interior point.
 
+## Keeping it current
+
+**Status (2026-10-13): manual, pending a more general solution.** The tile set at `cboettig/tpl-cities/browser-tiles/` was uploaded by hand. It sits outside the source.coop mirror's managed scope (geo-agent-ops), so nothing rebuilds it when the source data or the theme SQL changes. Whether derived copies like this should move into the managed pipeline, or be rebuilt some other way, is still under discussion. Until then, rebuild by hand when any of these change:
+- a dataset the themes read;
+- the columns a theme's SQL uses;
+- the census boundaries behind the pick lists.
+
+The steps, in order:
+
+1. **Area files** (only if boundaries changed): `python3 scripts/browser-aoi.py` rewrites `wasm/data/aoi/<jur>(-r8).parquet`.
+2. **Tiles:** `python3 scripts/browser-tiles.py <dir> [dataset ...]` writes the tiles and `manifest.json`, and refreshes `wasm/data/aoi/<jur>-counties.json`. It never tiles TPL ParkServe (see below).
+3. **Upload:**
+   ```
+   rclone copy <dir> source:us-west-2.opendata.source.coop/cboettig/tpl-cities/browser-tiles/ --exclude _build.duckdb
+   ```
+   Then check that `manifest.json` lists no `public-tpl` path.
+4. **Precomputed results:** `node scripts/precompute.mjs statewide`, `peers` and `results`. These still run through the MCP server.
+5. **Commit and deploy:** commit the changed files under `wasm/data/aoi/` and `data/`, then merge so Pages redeploys.
+
+**Redistribution rules** (geo-agent-ops `scripts/check-source-scope.py`; `DATA_WORKFLOWS_HARDENING.md`, 2026-10-12/13):
+- TPL ParkServe is host-only. Never tile or upload it, nor its geometry or H3 derivatives.
+- Per-jurisdiction aggregates are approved (`data/results/access/access/`, `data/peers/access/`).
+- Tract-level shares and the park-need priority breakdown are not approved until TPL answers, so `tracts.sql` and `need.sql` stay live queries.
+- SWAP, ca30x30 and WCB are cleared for public use.
+
+## Open items
+
+- **Tile upkeep:** a general solution for derived copies like the tile set (see above). Pending discussion.
+- **TPL guidance:** whether tract-level served percentages and the park-need priority breakdown may be published. If yes, add `"precompute"` files for `tracts.sql` and `need.sql`; `/wasm/` then reads no ParkServe at all. These two queries are the remaining ParkServe reads, about 145 requests per profile.
+- **WCB is moving to `public-cdfw`.** When it does, update the path in the theme SQL and rebuild that dataset's tile in the same change, or WCB queries in `/wasm/` will fail.
+- **Profiling:** profiles take about 16 s after the ParkServe precompute. Per-query timing would show whether anything else is worth precomputing.
+- **Area files stay on GitHub Pages** (`wasm/data/aoi`, about 2.4 MB). They are the app's own small files, and serving them from the same origin avoids CORS. Move them to source.coop only if all parquet should live there.
+
 ## Trade-offs vs the MCP server
 
 - **Gains:**
