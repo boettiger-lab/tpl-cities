@@ -125,7 +125,8 @@ export class Engine {
         const key = `${aoi.key}|${theme.id}|${queryName}`;
         if (!this.cache.has(key)) {
             const sql = this.sqlFor(theme, queryName, aoi);
-            const p = this.client.query(sql, { aoi }).catch(err => {
+            // a jurisdiction feature's precomputed rows, when the query has them; else live
+            const p = this.precomputed(theme, queryName, aoi).then(rows => rows ?? this.client.query(sql, { aoi })).catch(err => {
                 this.cache.delete(key);          // let a retry re-run it
                 err.sql = sql;
                 throw err;
@@ -133,6 +134,22 @@ export class Engine {
             this.cache.set(key, p);
         }
         return this.cache.get(key);
+    }
+
+    /**
+     * A query's precomputed rows for a jurisdiction feature
+     * (data/results/<theme>/<query>/<jur>.json, written by `precompute.mjs
+     * results` for queries with a "precompute" file); null when absent.
+     */
+    async precomputed(theme, queryName, aoi, base = this.dataBase) {
+        if (!theme.queries[queryName]?.precompute || !aoi.kind || !aoi.id) return null;
+        const key = `results|${theme.id}|${queryName}|${aoi.kind}`;
+        if (!this.cache.has(key)) {
+            this.cache.set(key, fetch(`${base}/data/results/${theme.id}/${queryName}/${aoi.kind}.json`, { cache: 'no-cache' })
+                .then(r => (r.ok ? r.json() : null))
+                .catch(() => null));
+        }
+        return (await this.cache.get(key))?.[aoi.id] ?? null;
     }
 
     /** Statewide comparison rows: precomputed file first, live query as fallback. */

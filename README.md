@@ -27,6 +27,7 @@ data/
   lists/*.json        precomputed pick lists (id, name, bbox)
   statewide.json      precomputed statewide results for every theme query
   peers/<theme>/<jur>.json  precomputed per-jurisdiction scores (for ranks)
+  results/<theme>/<query>/<jur>.json  precomputed query results per feature ({id: rows})
   sources.json        STAC records of every dataset the config reads (citations)
 scripts/precompute.mjs   regenerates data/ using the same engine
 ```
@@ -77,6 +78,8 @@ The same template runs for any area. The statewide comparison is simply the temp
 The map query returns `(GEOID, value)` for the 2024 census tracts in the area.
 
 A headline can carry `"rank": {"field": "score"}`, which adds "#9 of 58 California counties" to the tile. Ranks come from the theme's `peers.sql`, run once per jurisdiction type by `node scripts/precompute.mjs peers <theme>`. Its `{{CELLS10}}` token expands to the jurisdiction's `cells10` query, `(id, h0, h10)` for every feature, so one query scores them all; it must return `id` plus the ranked field, computed the same way as the live query.
+
+A query can also carry `"precompute": "<file>.sql"`, a version of the query that uses `{{CELLS10}}` to return `id` plus the live query's columns for every feature. `node scripts/precompute.mjs results <theme>` writes `data/results/<theme>/<query>/<jur>.json`, and the app serves a jurisdiction feature's rows from that file instead of running the query (drawn areas and isochrones still query live). Park access uses this for `access.sql`, so the in-browser variant doesn't read ParkServe for the headline scores. Only per-jurisdiction aggregates are published this way: ParkServe itself is host-not-redistribute (see `notes/in-browser.md`), and finer-grained outputs (tract shares, TPL park-need priority) stay live pending TPL's guidance.
 
 ### Park access score
 
