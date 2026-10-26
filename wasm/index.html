@@ -17,7 +17,7 @@
         integrity="sha384-MjejsnWXHmuz93aE35YWLh5AbS/6ceRB3Vb+ukOwqFzJRTpQ8vvbkLbNV7I0QK4f"
         crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="../app/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/SchmidtDSE/glen-charts@v0.3.0/core/style.css">
 </head>
 
 <body>
@@ -34,45 +34,12 @@
         </nav>
     </header>
 
-    <main id="layout">
-        <section id="map-wrap">
-            <div id="map"></div>
-            <div id="map-chips" class="map-overlay" hidden></div>
-            <div id="map-legend" class="map-overlay" hidden></div>
-            <div id="map-hint" class="map-overlay" hidden></div>
-        </section>
+    <main id="glen"></main>
 
-        <aside id="sidebar">
-            <div class="sidebar-resize" title="Drag to resize"></div>
-
-            <section id="controls">
-                <div class="step" id="step-jur">
-                    <div class="step-label"><span class="step-num">1</span> Compare by</div>
-                    <div class="seg" id="jur-buttons" role="radiogroup" aria-label="Jurisdiction type"></div>
-                </div>
-                <div class="step" id="step-themes">
-                    <div class="step-label"><span class="step-num">2</span> Dimensions</div>
-                    <div class="chips" id="theme-buttons" role="group" aria-label="Dimensions"></div>
-                </div>
-                <div class="step" id="step-place">
-                    <div class="step-label"><span class="step-num">3</span> <span id="place-label">Place</span></div>
-                    <div class="search">
-                        <input id="place-input" type="search" autocomplete="off" spellcheck="false"
-                            placeholder="Choose a jurisdiction type first" disabled
-                            aria-autocomplete="list" aria-controls="place-results">
-                        <ul id="place-results" role="listbox" hidden></ul>
-                    </div>
-                    <div class="step-help" id="place-help"></div>
-                </div>
-            </section>
-
-            <section id="report" aria-live="polite"></section>
-        </aside>
-    </main>
-
-    <div id="tooltip" role="tooltip" hidden></div>
-
-    <script type="module" src="../app/main.js"></script>
+    <script type="module">
+        import { createExplorer } from 'https://cdn.jsdelivr.net/gh/SchmidtDSE/glen-charts@v0.3.0/core/explorer.js';
+        createExplorer();
+    </script>
 </body>
 
 </html>

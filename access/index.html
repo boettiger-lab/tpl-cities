@@ -20,7 +20,7 @@
         integrity="sha384-nKUDlg+fT0U/eEt4KWP9n034kLe/eVj6k7CVjbu6qfRhJdEyinlGajS9+9AU+UZ5"
         crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="../app/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/SchmidtDSE/glen-charts@v0.3.0/core/style.css">
 </head>
 
 <body>
@@ -36,50 +36,13 @@
         </nav>
     </header>
 
-    <main id="layout">
-        <section id="map-wrap">
-            <div id="map"></div>
-            <div id="map-chips" class="map-overlay" hidden></div>
-            <div id="map-legend" class="map-overlay" hidden></div>
-            <div id="map-hint" class="map-overlay">Click anywhere in California to start</div>
-        </section>
+    <main id="glen"></main>
 
-        <aside id="sidebar">
-            <div class="sidebar-resize" title="Drag to resize"></div>
-
-            <section id="controls">
-                <div class="step" id="step-origin">
-                    <div class="step-label"><span class="step-num">1</span> Start from</div>
-                    <div class="search">
-                        <input id="place-input" type="search" autocomplete="off" spellcheck="false"
-                            placeholder="Search an address or place, or click the map"
-                            aria-autocomplete="list" aria-controls="place-results">
-                        <ul id="place-results" role="listbox" hidden></ul>
-                    </div>
-                </div>
-                <div class="step-row">
-                    <div class="step" id="step-mode">
-                        <div class="step-label"><span class="step-num">2</span> Travel by</div>
-                        <div class="seg" id="mode-buttons" role="radiogroup" aria-label="Travel mode"></div>
-                    </div>
-                    <div class="step" id="step-time">
-                        <div class="step-label"><span class="step-num">3</span> Within</div>
-                        <div class="seg" id="time-buttons" role="radiogroup" aria-label="Travel time"></div>
-                    </div>
-                </div>
-                <div class="step" id="step-themes">
-                    <div class="step-label"><span class="step-num">4</span> Dimensions</div>
-                    <div class="chips" id="theme-buttons" role="group" aria-label="Dimensions"></div>
-                </div>
-            </section>
-
-            <section id="report" aria-live="polite"></section>
-        </aside>
-    </main>
-
-    <div id="tooltip" role="tooltip" hidden></div>
-
-    <script type="module" src="../app/access.js"></script>
+    <script type="module">
+        import { createExplorer } from 'https://cdn.jsdelivr.net/gh/SchmidtDSE/glen-charts@v0.3.0/core/explorer.js';
+        import { isochroneSource } from 'https://cdn.jsdelivr.net/gh/SchmidtDSE/glen-charts@v0.3.0/sources/isochrone-source.js';
+        createExplorer({ extensions: { sources: [isochroneSource()] } });
+    </script>
 </body>
 
 </html>
