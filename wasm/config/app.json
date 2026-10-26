@@ -1,5 +1,9 @@
 {
     "title": "California Community Profiles",
+    "id": "tpl-cities",
+    "project_url": "https://github.com/boettiger-lab/tpl-cities",
+    "labels": {"area": "Compare by", "sections": "Dimensions"},
+    "intro": "<h2>How does a place compare?</h2><p>Pick a type of jurisdiction, then select a place by name or on the map, and choose the dimensions you care about. Each profile compares the place with California as a whole, and splits key measures between land that is protected under the state’s 30x30 definition (GAP 1–2) and land that is not.</p><ul><li><b>Park access</b> — Who can walk to a park in 10 minutes, using the Trust for Public Land&#x27;s ParkServe walk zones, and which neighborhoods are left out.</li><li><b>Health &amp; equity</b> — Park access, disadvantaged communities, and cumulative environmental burden (CalEnviroScreen).</li><li><b>Climate risk</b> — Projected heat, flood and sea-level-rise exposure, recent wildfire and prescribed burns, and wildfire hazard.</li><li><b>Biodiversity</b> — Species of Greatest Conservation Need, listed species, and critical habitat — and how much of it is protected.</li></ul><p class=\"tile-note\">All numbers are computed on demand from public datasets with fixed, reviewable SQL — no AI model is involved. Open “Method &amp; SQL” under any panel to see exactly what ran.</p>",
     "engine": "wasm",
     "wasm": {
         "duckdb": "1.33.1-dev57.0",
@@ -61,6 +65,8 @@
         "../config/themes/biodiversity"
     ],
     "statewide": {
+        "label": "California",
+        "selectable": false,
         "aoi": "SELECT DISTINCT h0, h8 FROM read_parquet('s3://public-ca30x30/ecoregion/hex-res8/h0=*/data_0.parquet')",
         "aoi10": "SELECT DISTINCT h0, h8, h10 FROM read_parquet('s3://public-ca30x30/ecoregion/hex/h0=*/data_0.parquet')"
     },

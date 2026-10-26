@@ -70,7 +70,7 @@ The steps, in order:
    rclone copy <dir> source:us-west-2.opendata.source.coop/cboettig/tpl-cities/browser-tiles/ --exclude _build.duckdb
    ```
    Then check that `manifest.json` lists no `public-tpl` path.
-4. **Precomputed results:** `node scripts/precompute.mjs statewide`, `peers` and `results`. These still run through the MCP server.
+4. **Precomputed results:** the glen-charts precompute CLI (`statewide`), `peers` and `results`. These still run through the MCP server.
 5. **Commit and deploy:** commit the changed files under `wasm/data/aoi/` and `data/`, then merge so Pages redeploys.
 
 **Redistribution rules** (geo-agent-ops `scripts/check-source-scope.py`; `DATA_WORKFLOWS_HARDENING.md`, 2026-10-12/13):
@@ -96,5 +96,5 @@ The steps, in order:
   - The tile set is a derived copy that has to be rebuilt when the data or the SQL's columns change (`python3 scripts/browser-tiles.py <dir>`, then upload).
   - First load pulls about 35 MB of DuckDB wasm and extensions (cached afterwards).
   - Large areas download tens to hundreds of MB.
-  - Statewide numbers and peer ranks are still precomputed with the MCP server (`scripts/precompute.mjs`). This could move to native DuckDB.
+  - Statewide numbers and peer ranks are still precomputed with the MCP server (the glen-charts precompute CLI). This could move to native DuckDB.
 - **Arbitrary areas:** isochrones or drawn polygons span counties unpredictably, but can use the same tiles if the client computes their counties from their cells.

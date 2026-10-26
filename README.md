@@ -9,17 +9,7 @@ Sibling of [tpl-ca](https://github.com/boettiger-lab/tpl-ca), which offers open-
 ## How it works
 
 ```
-index.html            static shell (MapLibre + PMTiles from CDN, no build step)
-app/                  ES modules
-  mcp.js              tiny MCP client: one stateless POST per query; wraps each
-                      query in to_json(list(...)) so results come back as one
-                      JSON cell (avoids the server's 50-row markdown preview)
-  engine.js           loads config, expands SQL templates, caches results
-  main.js             UI: jurisdiction → dimensions → place → report; URL hash state
-  map.js              boundaries (PMTiles), selection, tract choropleth
-  charts.js           horizontal bar charts in plain SVG
-  export.js           "Export" button: self-contained HTML report (see below)
-  sources.js          data path ↔ STAC record matching (export citations)
+index.html            header + glen-charts (MapLibre, PMTiles and glen-charts from CDN, no build step)
 config/
   app.json            jurisdictions (AOI SQL, pick list, boundary tiles), theme list
   themes/<id>/        theme.json (headlines, charts, map) + *.sql templates
@@ -29,8 +19,18 @@ data/
   peers/<theme>/<jur>.json  precomputed per-jurisdiction scores (for ranks)
   results/<theme>/<query>/<jur>.json  precomputed query results per feature ({id: rows})
   sources.json        STAC records of every dataset the config reads (citations)
-scripts/precompute.mjs   regenerates data/ using the same engine
+scripts/              browser tile set builders for /wasm/ (see below)
 ```
+
+The page, map, query engine, charts and export come from [glen-charts](https://github.com/SchmidtDSE/glen-charts) (v0.3.0), loaded from jsDelivr at a pinned tag; its README is the full configuration reference. Each site variant is an `index.html` and its `config/`. To move to a newer glen-charts, change the tag in the three `index.html` files and check that the generated SQL is unchanged, so `data/` stays valid.
+
+Precomputed `data/` is written by the glen-charts precompute CLI, which runs the same SQL through the same engine:
+
+```sh
+npx github:SchmidtDSE/glen-charts#v0.3.0 precompute [--site <variant folder>] <job> [args]
+```
+
+Below, `precompute` stands for that command.
 
 ### SQL template contract
 
@@ -53,7 +53,7 @@ The same template runs for any area. The statewide comparison is simply the temp
 
 1. Create `config/themes/<id>/` with a `theme.json` and one or more `.sql` files.
 2. Add `<id>` to `themes` in `config/app.json`.
-3. Run `node scripts/precompute.mjs statewide <id>` to cache the statewide comparison.
+3. Run `precompute statewide <id>` to cache the statewide comparison.
 
 `theme.json`:
 
@@ -77,9 +77,9 @@ The same template runs for any area. The statewide comparison is simply the temp
 
 The map query returns `(GEOID, value)` for the 2024 census tracts in the area.
 
-A headline can carry `"rank": {"field": "score"}`, which adds "#9 of 58 California counties" to the tile. Ranks come from the theme's `peers.sql`, run once per jurisdiction type by `node scripts/precompute.mjs peers <theme>`. Its `{{CELLS10}}` token expands to the jurisdiction's `cells10` query, `(id, h0, h10)` for every feature, so one query scores them all; it must return `id` plus the ranked field, computed the same way as the live query.
+A headline can carry `"rank": {"field": "score"}`, which adds "#9 of 58 California counties" to the tile. Ranks come from the theme's `peers.sql`, run once per jurisdiction type by `precompute peers <theme>`. Its `{{CELLS10}}` token expands to the jurisdiction's `cells10` query, `(id, h0, h10)` for every feature, so one query scores them all; it must return `id` plus the ranked field, computed the same way as the live query.
 
-A query can also carry `"precompute": "<file>.sql"`, a version of the query that uses `{{CELLS10}}` to return `id` plus the live query's columns for every feature. `node scripts/precompute.mjs results <theme>` writes `data/results/<theme>/<query>/<jur>.json`, and the app serves a jurisdiction feature's rows from that file instead of running the query (drawn areas and isochrones still query live). Park access uses this for `access.sql`, so the in-browser variant doesn't read ParkServe for the headline scores. Only per-jurisdiction aggregates are published this way: ParkServe itself is host-not-redistribute (see `notes/in-browser.md`), and finer-grained outputs (tract shares, TPL park-need priority) stay live pending TPL's guidance.
+A query can also carry `"precompute": "<file>.sql"`, a version of the query that uses `{{CELLS10}}` to return `id` plus the live query's columns for every feature. `precompute results <theme>` writes `data/results/<theme>/<query>/<jur>.json`, and the app serves a jurisdiction feature's rows from that file instead of running the query (drawn areas and isochrones still query live). Park access uses this for `access.sql`, so the in-browser variant doesn't read ParkServe for the headline scores. Only per-jurisdiction aggregates are published this way: ParkServe itself is host-not-redistribute (see `notes/in-browser.md`), and finer-grained outputs (tract shares, TPL park-need priority) stay live pending TPL's guidance.
 
 ### Park access score
 
@@ -99,7 +99,7 @@ Add an entry to `jurisdictions` in `config/app.json`. It needs:
 - `boundary` PMTiles settings;
 - optionally, `cells10` (every feature's `id, h0, h10`) and `peer_label`, for ranks.
 
-Then run `node scripts/precompute.mjs lists`. Drawn or uploaded polygons are planned to plug in the same way, with an AOI built from an H3 polyfill.
+Then run `precompute lists`.
 
 ## Export
 
@@ -109,13 +109,13 @@ Then run `node scripts/precompute.mjs lists`. Drawn or uploaded polygons are pla
 - **Panels:** the headline tiles and charts as they appeared, each section's method note, and every query behind them. Queries are folded code chunks with a **SQL / R / Python** toggle, each with its output table.
 - **Re-running:** a setup chunk points `s3://` at the public endpoint anonymously, so the code re-runs outside the cluster. **Downloads** of the whole profile as `.R`, `.py`, `.qmd` or `.ipynb` are in the document's Options.
 - **Print / PDF:** prints with all code unfolded, or *without code* for a short document.
-- **Data sources:** a citation for each dataset the queries read or the map drew. Citations are matched to STAC records in `data/sources.json`; regenerate it with `node scripts/precompute.mjs [--site <folder>] sources` after adding a dataset.
+- **Data sources:** a citation for each dataset the queries read or the map drew. Citations are matched to STAC records in `data/sources.json`; regenerate it with `precompute [--site <folder>] sources` after adding a dataset.
 
 The SQL/R/Python wrappers, the S3 setup block, the map embed and the citation fields are imported from [geo-agent](https://github.com/boettiger-lab/geo-agent)'s `app/export-report.js`, pinned to a release, only when someone exports. Both apps therefore hand readers the same runnable code.
 
 ## Site variants
 
-Each subfolder with an `index.html` is a separate variant served at its own path. Variants share the code in `app/` and keep their own `config/` and `data/`.
+Each subfolder with an `index.html` is a separate variant served at its own path. Variants share glen-charts and keep their own `config/` and `data/`.
 
 | Path | Variant |
 |---|---|
@@ -123,12 +123,12 @@ Each subfolder with an `index.html` is a separate variant served at its own path
 | `/access/` | **Nature Within Reach**: click a point and choose walk, bike or drive and 5/10/15 minutes; summarises the reachable area (isochrone) |
 | `/wasm/` | **Community Profiles, in-browser**: the same app with no query server; DuckDB-wasm runs the SQL in the visitor's browser |
 
-To make a new variant, copy a variant folder, edit its `config/app.json` and themes, and run `node scripts/precompute.mjs --site <folder> statewide`. A theme id in `app.json` can be a path such as `"../config/themes/equity"`, so variants can reuse each other's themes.
+To make a new variant, copy a variant folder, edit its `config/app.json` and themes, and run `precompute --site <folder> statewide`. A theme id in `app.json` can be a path such as `"../config/themes/equity"`, so variants can reuse each other's themes.
 
 ### Isochrone AOIs (`/access/`)
 
 - Travel-time polygons come from a [Valhalla](https://github.com/valhalla/valhalla) router: the public FOSSGIS server by default, set in `routing.url`.
-- `app/iso.js` turns the polygons into SQL. The DuckDB server fills them with res-10 H3 cells (`h3_polygon_wkt_to_cells`), so every theme's SQL runs unchanged on an isochrone. Drawn or uploaded polygons can use the same path (`polygonAoi`).
+- glen-charts' isochrone area source (`isochroneSource()`, configured by `routing` and `isochrones` in `access/config/app.json`) turns the polygons into SQL. The DuckDB server fills them with res-10 H3 cells (`h3_polygon_wkt_to_cells`), so every theme's SQL runs unchanged on an isochrone.
 - Isochrone AOIs add these tokens:
   - `{{BANDS10}}`: every cell labelled with the smallest 5/10/15-minute band that reaches it, for "reach grows with time" charts.
   - `{{ORIGIN_LAT}}` and `{{ORIGIN_LON}}`: the starting point.
@@ -138,7 +138,7 @@ See `notes/isochrones.md` for the routing options (on the fly vs precomputed, an
 
 ### In-browser queries (`/wasm/`)
 
-- `"engine": "wasm"` in `app.json` swaps the MCP client for `app/wasm.js`, which runs the same SQL in DuckDB-wasm (with the h3, httpfs and spatial extensions). Themes, reports, ranks and export are shared with `/`, which still uses the MCP server.
+- `"engine": "wasm"` in `app.json` swaps the MCP client for glen-charts' DuckDB-wasm client, which runs the same SQL in DuckDB-wasm (with the h3, httpfs and spatial extensions). Themes, reports, ranks and export are shared with `/`, which still uses the MCP server.
 - Places come from small precomputed files rather than a census lookup: `wasm/data/aoi/<jurisdiction>.parquet` holds each feature's compacted H3 cells (res 10, and res 8 in `-r8`), read through the `{{SITE}}` token.
 - Data comes from a **browser tile set** built by `scripts/browser-tiles.py`: California-only copies of each dataset the themes read, one small parquet file per county, keeping only the columns the SQL uses (about 670 MB in all). For each query the client fetches the county files the place needs in parallel, hands them to DuckDB as in-memory buffers, and points the query's `s3://…/h0=*/…` glob at them. `wasm/data/aoi/<jurisdiction>-counties.json` lists each feature's counties.
 - Without the tile set (or for a dataset not in it) queries read the public parquet directly, preferring the source.coop mirror (`rewrite`). That works but is slow: about 11 minutes and 2.8 GB for a county profile.
@@ -150,7 +150,7 @@ See `notes/in-browser.md` for why the tile set is needed, the benchmarks, and th
 
 ```sh
 python3 -m http.server 8000      # then open http://localhost:8000
-node scripts/precompute.mjs      # refresh data/ (Node ≥ 18)
+npx github:SchmidtDSE/glen-charts#v0.3.0 precompute      # refresh data/ (Node ≥ 20.6)
 ```
 
 ## Deploy
