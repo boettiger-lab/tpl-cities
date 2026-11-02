@@ -111,7 +111,7 @@ Then run `precompute lists`.
 - **Print / PDF:** prints with all code unfolded, or *without code* for a short document.
 - **Data sources:** a citation for each dataset the queries read or the map drew. Citations are matched to STAC records in `data/sources.json`; regenerate it with `precompute [--site <folder>] sources` after adding a dataset.
 
-The SQL/R/Python wrappers, the S3 setup block, the map embed and the citation fields are imported from [geo-agent](https://github.com/boettiger-lab/geo-agent)'s `app/export-report.js`, pinned to a release, only when someone exports. Both apps therefore hand readers the same runnable code.
+The SQL/R/Python wrappers, the S3 setup block, the map embed and the citation fields are imported from [geo-agent](https://github.com/SchmidtDSE/glen)'s `app/export-report.js`, pinned to a release, only when someone exports. Both apps therefore hand readers the same runnable code.
 
 ## Site variants
 
