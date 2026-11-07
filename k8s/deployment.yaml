@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tpl-cities
+  namespace: biodiversity
+  labels:
+    app: tpl-cities
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: tpl-cities
+  template:
+    metadata:
+      labels:
+        app: tpl-cities
+    spec:
+      automountServiceAccountToken: false
+      initContainers:
+      - name: git-clone
+        image: alpine/git:2.52.0
+        command:
+        - sh
+        - -c
+        - |
+          git clone --depth 1 https://github.com/boettiger-lab/tpl-cities.git /tmp/repo
+          rm -rf /tmp/repo/.git /tmp/repo/k8s
+          cp -r /tmp/repo/. /usr/share/nginx/html/
+        volumeMounts:
+        - name: website-content
+          mountPath: /usr/share/nginx/html
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        env:
+        - name: TMPDIR
+          value: "/tmp"
+        - name: MCP_AUTH_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: duckdb-mcp-auth
+              key: MCP_AUTH_TOKEN
+        command:
+        - sh
+        - -c
+        - |
+          apk add --no-cache gettext
+          # Substitute only ${MCP_AUTH_TOKEN}, so nginx's own $uri and $host
+          # variables survive.
+          envsubst '$${MCP_AUTH_TOKEN}' < /nginx-template/nginx.conf.template \
+            > /etc/nginx/conf.d/default.conf
+          # Pin worker_processes low: 'auto' spawns one worker per CPU, which
+          # OOM-kills the 256Mi limit on large NRP nodes.
+          sed -i 's/^worker_processes.*/worker_processes 2;/' /etc/nginx/nginx.conf
+          nginx -g 'daemon off;'
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+        volumeMounts:
+        - name: website-content
+          mountPath: /usr/share/nginx/html
+        - name: nginx-template
+          mountPath: /nginx-template
+          readOnly: true
+        - name: nginx-conf-d
+          mountPath: /etc/nginx/conf.d
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+      volumes:
+      - name: website-content
+        emptyDir: {}
+      - name: nginx-template
+        configMap:
+          name: tpl-cities-nginx
+      - name: nginx-conf-d
+        emptyDir: {}

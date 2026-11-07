@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tpl-cities
+  namespace: biodiversity
+  labels:
+    app: tpl-cities
+spec:
+  type: ClusterIP
+  selector:
+    app: tpl-cities
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      name: http
