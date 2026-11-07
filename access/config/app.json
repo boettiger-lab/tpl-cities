@@ -4,7 +4,7 @@
     "project_url": "https://github.com/boettiger-lab/tpl-cities",
     "labels": {"sections": "Dimensions", "map_chips": "Color map by"},
     "intro": "<h2>What nature is within reach?</h2><p>Pick a starting point anywhere in California — click the map or search an address — then choose how you travel and how long you’re willing to go. We map everywhere reachable in 5, 10 and 15 minutes along real streets and paths, and summarize what’s inside.</p><ul><li><b>Biodiversity</b> — Species people have recorded within reach (GBIF, including iNaturalist and eBird).</li><li><b>Community</b> — Who lives within reach: environmental burden, disadvantaged communities, and income.</li></ul><p class=\"tile-note\">Travel times come from the open-source Valhalla router on OpenStreetMap. All numbers are computed on demand with fixed, reviewable SQL — no AI model is involved.</p>",
-    "mcp_url": "https://duckdb-mcp.nrp-nautilus.io/mcp",
+    "mcp_url": "https://tpl-cities.nrp-nautilus.io/api/mcp",
     "view": { "center": [-119.5, 37.3], "zoom": 5.4 },
 
     "routing": { "provider": "valhalla", "url": "https://valhalla1.openstreetmap.de" },
