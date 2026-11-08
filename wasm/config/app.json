@@ -42,6 +42,10 @@
             {
                 "from": "s3://public-usfws/",
                 "to": "s3://us-west-2.opendata.source.coop/cboettig/usfws/"
+            },
+            {
+                "from": "s3://public-swap/",
+                "to": "s3://us-west-2.opendata.source.coop/cboettig/swap/"
             }
         ],
         "tiles": {
