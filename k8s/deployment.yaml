@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: tpl-cities
-  namespace: biodiversity
+  namespace: schmidtdse
   labels:
     app: tpl-cities
 spec:
@@ -45,8 +45,8 @@ spec:
         - name: MCP_AUTH_TOKEN
           valueFrom:
             secretKeyRef:
-              name: duckdb-mcp-mirror-auth
-              key: MCP_AUTH_TOKEN
+              name: duckdb-mcp-tokens
+              key: tpl-cities
         command:
         - sh
         - -c
