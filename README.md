@@ -19,7 +19,6 @@ data/
   peers/<theme>/<jur>.json  precomputed per-jurisdiction scores (for ranks)
   results/<theme>/<query>/<jur>.json  precomputed query results per feature ({id: rows})
   sources.json        STAC records of every dataset the config reads (citations)
-scripts/              browser tile set builders for /wasm/ (see below)
 ```
 
 The page, map, query engine, charts and export come from [glen-charts](https://github.com/SchmidtDSE/glen-charts) (v0.3.0), loaded from jsDelivr at a pinned tag; its README is the full configuration reference. Each site variant is an `index.html` and its `config/`. To move to a newer glen-charts, change the tag in the three `index.html` files and check that the generated SQL is unchanged, so `data/` stays valid.
@@ -79,7 +78,7 @@ The map query returns `(GEOID, value)` for the 2024 census tracts in the area.
 
 A headline can carry `"rank": {"field": "score"}`, which adds "#9 of 58 California counties" to the tile. Ranks come from the theme's `peers.sql`, run once per jurisdiction type by `precompute peers <theme>`. Its `{{CELLS10}}` token expands to the jurisdiction's `cells10` query, `(id, h0, h10)` for every feature, so one query scores them all; it must return `id` plus the ranked field, computed the same way as the live query.
 
-A query can also carry `"precompute": "<file>.sql"`, a version of the query that uses `{{CELLS10}}` to return `id` plus the live query's columns for every feature. `precompute results <theme>` writes `data/results/<theme>/<query>/<jur>.json`, and the app serves a jurisdiction feature's rows from that file instead of running the query (drawn areas and isochrones still query live). Park access uses this for `access.sql`, so the in-browser variant doesn't read ParkServe for the headline scores. Only per-jurisdiction aggregates are published this way: ParkServe itself is host-not-redistribute (see `notes/in-browser.md`), and finer-grained outputs (tract shares, TPL park-need priority) stay live pending TPL's guidance.
+A query can also carry `"precompute": "<file>.sql"`, a version of the query that uses `{{CELLS10}}` to return `id` plus the live query's columns for every feature. `precompute results <theme>` writes `data/results/<theme>/<query>/<jur>.json`, and the app serves a jurisdiction feature's rows from that file instead of running the query (drawn areas and isochrones still query live). Park access uses this for `access.sql`. Only per-jurisdiction aggregates are published this way. TPL ParkServe is host-only: never copy or upload it, its geometry or its H3 derivatives. Per-jurisdiction aggregates were cleared for publication on 2026-10-13. Finer-grained outputs (tract shares, TPL park-need priority) stay live queries until TPL says they may be published.
 
 ### Park access score
 
@@ -121,7 +120,6 @@ Each subfolder with an `index.html` is a separate variant served at its own path
 |---|---|
 | `/` | **Community Profiles**: jurisdiction-based profiles (this README) |
 | `/access/` | **Nature Within Reach**: click a point and choose walk, bike or drive and 5/10/15 minutes; summarises the reachable area (isochrone) |
-| `/wasm/` | **Community Profiles, in-browser**: the same app with no query server; DuckDB-wasm runs the SQL in the visitor's browser |
 
 To make a new variant, copy a variant folder, edit its `config/app.json` and themes, and run `precompute --site <folder> statewide`. A theme id in `app.json` can be a path such as `"../config/themes/equity"`, so variants can reuse each other's themes.
 
@@ -135,16 +133,6 @@ To make a new variant, copy a variant folder, edit its `config/app.json` and the
 - A theme's `map.type: "hex"` draws res-9 hexagons from H3 id strings (`h3_h3_to_string`) instead of census tracts.
 
 See `notes/isochrones.md` for the routing options (on the fly vs precomputed, and transit).
-
-### In-browser queries (`/wasm/`)
-
-- `"engine": "wasm"` in `app.json` swaps the MCP client for glen-charts' DuckDB-wasm client, which runs the same SQL in DuckDB-wasm (with the h3, httpfs and spatial extensions). Themes, reports, ranks and export are shared with `/`, which still uses the MCP server.
-- Places come from small precomputed files rather than a census lookup: `wasm/data/aoi/<jurisdiction>.parquet` holds each feature's compacted H3 cells (res 10, and res 8 in `-r8`), read through the `{{SITE}}` token.
-- Data comes from a **browser tile set** built by `scripts/browser-tiles.py`: California-only copies of each dataset the themes read, one small parquet file per county, keeping only the columns the SQL uses (about 670 MB in all). For each query the client fetches the county files the place needs in parallel, hands them to DuckDB as in-memory buffers, and points the query's `s3://…/h0=*/…` glob at them. `wasm/data/aoi/<jurisdiction>-counties.json` lists each feature's counties.
-- Without the tile set (or for a dataset not in it) queries read the public parquet directly, preferring the source.coop mirror (`rewrite`). That works but is slow: about 11 minutes and 2.8 GB for a county profile.
-- `wasm.tiles.url` in `wasm/config/app.json` says where the tile set is published.
-
-See `notes/in-browser.md` for why the tile set is needed, the benchmarks, and the check against the server results.
 
 ## Run locally
 
