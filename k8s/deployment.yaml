@@ -46,7 +46,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: duckdb-mcp-tokens
-              key: tpl-cities
+              key: public
         command:
         - sh
         - -c
