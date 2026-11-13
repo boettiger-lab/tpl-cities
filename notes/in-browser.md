@@ -1,6 +1,6 @@
 # Dropping the MCP server: DuckDB-wasm in the browser
 
-This note covers whether the main app can run its SQL in the visitor's browser instead of on the duckdb-geo MCP server, and what that takes. The prototype is the `/wasm/` variant.
+This note covers whether the main app can run its SQL in the visitor's browser instead of on the duckdb-geo MCP server, and what that takes. The prototype was the `/wasm/` variant. It was removed on 2026-11-13 (owner decision): the app uses the MCP server only. Its page and the `scripts/browser-*.py` builders are in git history before that date.
 
 ## What works out of the box
 
